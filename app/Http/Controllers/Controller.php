@@ -25,7 +25,8 @@ class Controller extends BaseController
             'aplikasi'      => aplikasi::first(),
             'kontak'      => new Kontak,
             'menu' => [
-                'beranda'        => url('/'),
+                'beranda'=> url('/'),
+                //tes
             ],
         ]);
     }
