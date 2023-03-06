@@ -62,7 +62,6 @@ Route::group(['prefix' => config('master.url.admin')], function () {
             Route::get('/hapus/{id}', 'kontakController@hapus');
         });
         Route::resource('kontak', 'kontakController');
-
         // aplikasi
         Route::prefix('aplikasi')->as('aplikasi')->group(function () {
             Route::get('/data/{id?}', 'aplikasiController@data');
