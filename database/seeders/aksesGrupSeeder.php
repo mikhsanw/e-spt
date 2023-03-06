@@ -21,6 +21,14 @@ class aksesGrupSeeder extends Seeder
                         'nama' 			=> 'Root',
                         'alias'         => 'root'
                     ],
+                    [
+                        'nama' 			=> 'Pimpinan',
+                        'alias'         => 'Pimpinan'
+                    ],
+                    [
+                        'nama' 			=> 'Admin',
+                        'alias'         => 'Admin'
+                    ],
                 ];
         DB::table('aksesgrups')->insert($isi);
         Schema::enableForeignKeyConstraints();

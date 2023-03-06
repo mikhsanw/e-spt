@@ -13,18 +13,41 @@ class userSeeder extends Seeder
 
     public function run()
     {
+        $users = [
+            [
+                'id'=>\Ramsey\Uuid\Uuid::uuid4()->toString(),
+                'username'=>'root',
+                'nama'=>'root',
+                'password'=>bcrypt($this->userpass),
+                'aksesgrup_id'=>1,
+                'level'=>1,
+                'email'=>'spbe@bengkaliskab.go.id',
+                'email_verified_at'=>date("Y-m-d H:i:s"),
+            ],[
+                'id'=>\Ramsey\Uuid\Uuid::uuid4()->toString(),
+                'username'=>'kadis',
+                'nama'=>'Kadis',
+                'password'=>bcrypt("kadis123"),
+                'aksesgrup_id'=>2,
+                'level'=>2,
+                'email'=>'kadis@bengkaliskab.go.id',
+                'email_verified_at'=>date("Y-m-d H:i:s"),
+            ],[
+                'id'=>\Ramsey\Uuid\Uuid::uuid4()->toString(),
+                'username'=>'admin',
+                'nama'=>'Admin',
+                'password'=>bcrypt("admin123"),
+                'aksesgrup_id'=>3,
+                'level'=>3,
+                'email'=>'admin@bengkaliskab.go.id',
+                'email_verified_at'=>date("Y-m-d H:i:s"),
+            ]
+        ];
         Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
-        DB::table('users')->insert([
-            'id'=>\Ramsey\Uuid\Uuid::uuid4()->toString(),
-            'username'=>'root',
-            'nama'=>'root',
-            'password'=>bcrypt($this->userpass),
-            'aksesgrup_id'=>1,
-            'level'=>1,
-            'email'=>'spbe@riau.go.id',
-            'email_verified_at'=>date("Y-m-d H:i:s"),
-        ]);
+        foreach ($users as  $value) {
+        DB::table('users')->insert($value);
+        }
         Schema::enableForeignKeyConstraints();
     }
 }

@@ -26,6 +26,8 @@ return [
     'level' => [
                     0 => 'Unknown',
                     1 => 'Root',
+                    2 => 'Pimpinan',
+                    3 => 'Admin',
     ],
     'url'   =>  [
                     'admin'     => '',
