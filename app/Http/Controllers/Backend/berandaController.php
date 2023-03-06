@@ -8,6 +8,7 @@ class berandaController extends Controller
 {
     public function index()
     {
+        
         return view('backend.beranda.index');
     }
 }

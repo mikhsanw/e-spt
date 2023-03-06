@@ -63,6 +63,13 @@ Route::group(['prefix' => config('master.url.admin')], function () {
         });
         Route::resource('kontak', 'kontakController');
         // aplikasi
+
+        Route::prefix('sptmasuk')->as('sptmasuk')->group(function () {
+            Route::get('/data', 'sptController@data');
+            Route::get('/hapus/{id}', 'sptController@hapus');
+        });
+        Route::resource('sptmasuk', 'sptController');
+
         Route::prefix('aplikasi')->as('aplikasi')->group(function () {
             Route::get('/data/{id?}', 'aplikasiController@data');
             Route::get('/logo/{id}', 'aplikasiController@logo');
