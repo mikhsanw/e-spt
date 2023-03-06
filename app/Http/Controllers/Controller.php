@@ -27,6 +27,7 @@ class Controller extends BaseController
             'menu' => [
                 'beranda'        => url('/'),
             ],
+            //tes koma
         ]);
     }
 }
