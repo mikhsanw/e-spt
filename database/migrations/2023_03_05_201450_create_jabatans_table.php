@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('jabatans', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nama')->nullable();
-            $table->string('tingkat')->nullable();
+            $table->char('tingkat')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

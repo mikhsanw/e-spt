@@ -15,7 +15,7 @@ class NomorTerakhir extends Model
         'id'=>'string',
     ];
     protected $fillable=[
-        'id', 'jenis', 'no_terakhir', 'opd_id'
+        'id', 'jenis', 'nomor_terakhir', 'opd_id'
     ];
 
     public function opd()

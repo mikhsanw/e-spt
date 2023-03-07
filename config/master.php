@@ -11,16 +11,16 @@ return [
     */
 
     'aplikasi' =>   [
-                        'nama'          => 'Selamat Datang',
-                        'singkatan'     => 'SINGKATAN',
-                        'daerah'        => 'PROVINSI RIAU', // HARUS HURUF BESAR
-                        'kota'          => 'Pekanbaru',
-                        'level'         => 'provinsi', // Kabupaten, kota, provinsi (default)
+                        'nama'          => 'E-SPT',
+                        'singkatan'     => 'E_SPT',
+                        'daerah'        => 'Kabupaten Bengkalis', // HARUS HURUF BESAR
+                        'kota'          => 'Bengkalis',
+                        'level'         => 'Kabupaten', // Kabupaten, kota, provinsi (default)
                         'logo'		    => env('APP_URL').'/backend/img/logo/200.png',
                         'favicon'		=> '/backend/img/logo/50.png',
                         'login_versi'   => 1, // 1,2
                         'author'        => 'hamba-allah',
-                        'skin'          => 'dark-skin', // dark-skin,light-skin
+                        'skin'          => 'light-skin', // dark-skin,light-skin
                         'color_skin'    => 'theme-primary', // theme-primary,theme-secondary,theme-danger
                     ],
     'level' => [
@@ -65,6 +65,21 @@ return [
         'telp'      =>'Telp',
         'kontak'    =>'Kontak',
         'koordinat' =>'Koordinat',
+    ],
+    'status_aktif'=>[
+        '0' => 'Aktif',
+        '1' => 'Tidak Aktif'
+    ],
+    'jenis_spt'=>[
+        'spt' => 'SPT',
+        'sppd' => 'SPPD',
+    ],
+    'tingkat_jabatan'=>[
+        'B' => 'Tingkat B',
+        'C' => 'Tingkat C',
+        'D' => 'Tingkat D',
+        'E' => 'Tingkat E',
+        'F' => 'Tingkat F',
     ],
     'status_foto'=>[
         'galeri'               => '0',
