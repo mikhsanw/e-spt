@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use OjiSatriani\Fungsi;
 use setasign\Fpdi\Tcpdf\Fpdi;
-
+use DateTime;
 class Help extends Fungsi
 {
 
@@ -39,7 +39,75 @@ class Help extends Fungsi
         }
         return $model;
     }
+static function tglindo($val)
+{
 
+  $waktu = date('Y-m-d', strtotime($val));
+    $hari_array = array(
+        'Minggu',
+        'Senin',
+        'Selasa',
+        'Rabu',
+        'Kamis',
+        'Jumat',
+        'Sabtu'
+    );
+    $hr = date('w', strtotime($waktu));
+    $hari = $hari_array[$hr];
+    $tanggal = date('j', strtotime($waktu));
+    $bulan_array = array(
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember',
+    );
+    $bl = date('n', strtotime($waktu));
+    $bulan = $bulan_array[$bl];
+    $tahun = date('Y', strtotime($waktu));
+    $jam = date( 'H:i:s', strtotime($val));
+
+    //untuk menampilkan hari, tanggal bulan tahun jam
+    //return "$hari, $tanggal $bulan $tahun $jam";
+
+    //untuk menampilkan hari, tanggal bulan tahun
+    return "$tanggal $bulan $tahun";
+}
+public static function time_ago($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+  
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+  
+    $string = array(
+        'y' => 'tahun',
+        'm' => 'bulan',
+        'w' => 'minggu',
+        'd' => 'hari',
+        'h' => 'jam',
+        'i' => 'menit',
+        's' => 'detik',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+  
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' yang lalu' : 'Baru saja';
+  }
     public static function shortDescription($content, $length)
     {
         $sentence=strip_tags($content);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Help;
 class sptController extends Controller
 {
     public function index()
@@ -15,17 +16,24 @@ class sptController extends Controller
 
     public function data(Request $request)
     {
-        if ($request->ajax()) {
-            $data= $this->model::query();
+        if ($request->ajax()){
+            $data= $this->model::with('bidang');
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-edit text-warning"></i>
+                   <i class="fa fa-eye text-warning"></i>
                </a>&nbsp; &nbsp;
-               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
-                   <i class="fa fa-trash text-danger"></i>
-               </a>
-           </div>')->toJson();
+             
+           </div>')
+           ->addColumn('tanggal_pengajuan',function($row){
+
+            return Help::time_ago($row->created_at);
+        })
+        ->addColumn('status_spt',function($row){
+
+            return config('master.status_spt.'.$row->status_spt);
+        })
+           ->toJson();
         }
         else {
             exit("Not an AJAX request -_-");
@@ -86,9 +94,12 @@ class sptController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   $data = $this->model::find($id);
+        if($data->status_spt=='0'){
+        $this->model::whereId($id)->update(['status_spt'=>'1']);
+        }
         $data=[
-            'data'    => $this->model::find($id)
+            'data'    => $data
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }
@@ -104,15 +115,14 @@ class sptController extends Controller
     {
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
-                'nama'              => 'required|'.config('master.regex.json'),
-                'alias'             => 'required|'.config('master.regex.json'),
+                'status_spt'              => 'required',
             ]);
             if ($validator->fails()) {
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
             }
             else {
                 $this->model::find($id)->update($request->all());
-                $respon=['status'=>true, 'pesan'=>'Data berhasil diubah'];
+                $response=['status'=>true, 'pesan'=>'Data berhasil diubah'];
             }
             return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];
         }

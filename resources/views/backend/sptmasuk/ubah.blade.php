@@ -1,36 +1,57 @@
-{!! Form::open(array('id' => 'frmOji', 'route' => [$halaman->kode.'.update', $data->id], 'class' => 'form account-form', 'method' => 'PUT', 'files' => 'true')) !!}
+{!! Form::open(array('id' => 'frmOji', 'route' => [$halaman->kode.'.update', $data->id], 'class' => 'form account-form', 'method' => 'PUT')) !!}
 <div class="row">
     <div class="col-md-12">
-        <p>
-            {!! Form::label('nama', 'Masukkan Nama', array('class' => 'control-label')) !!}
-            {!! Form::text('nama', $data->nama, array('id' => 'nama', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+    <table class="table">
+<tr>
+    <td>Nomor SPT</td>
+    <td>: Belum ada</td>
+</tr>
+<tr>
+    <td>Tanggal Berangkat</td>
+    <td>: {{Help::tglindo($data->tanggal_berangkat)}}</td>
+</tr>
+<tr>
+    <td>Tanggal Kembali</td>
+    <td>: {{Help::tglindo($data->tanggal_kembali)}}</td>
+</tr>
+<tr>
+    <td>Tempat Tujuan</td>
+    <td>: {{$data->tempat_tujuan}}</td>
+</tr>
+<tr>
+    <td>Maksud Perjalanan</td>
+    <td>: {!!$data->maksud_perjalanan!!}</td>
+</tr>
+
+    </table>
+    <p>
+  @if(in_array($data->status_spt,[0,1]))
+            <label for="">Beri Tindakan :</label><br>
+
+            <select name="status_spt" class="form-control" id="status_spt" required>
+                <option value="">--pilih tindakan--</option>
+                <option value="2" {{$data->status_spt ==2 ? 'selected' : ''}}>Terima Pengajuan</option>
+                <option value="3" {{$data->status_spt ==3 ? 'selected' : ''}}>Revisi Pengajuan</option>
+                <option value="4" {{$data->status_spt ==4 ? 'selected' : ''}}>Tolak Pengajuan</option>
+            </select>
+@else
+<label for="">Status Pengajuan :</label><br>
+@if($data->status_spt ==2)
+<h4 class="text-success"> <i class="fa fa-check"></i> Diterima </h4>
+@elseif($data->status_spt ==3)
+<h4 class="text-warning"> <i class="fa fa-spinner"></i> Menunggu Revisi </h4>
+
+@else 
+<h4 class="text-danger"> <i class="fa fa-close"></i> Ditolak </h4>
+
+@endif
+@endif
         </p>
-        <p>
-            {!! Form::label('link', 'Masukkan Link', array('class' => 'control-label')) !!}
-            {!! Form::text('link', $data->link, array('id' => 'link', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
-        </p>
-        <p>
-            {!! Form::label('isi', 'Tambahkan Informasi disini', array('class' => 'control-label')) !!}
-            {!! Form::textarea('isi', $data->isi, array('id' => 'isi', 'class' => 'form-control js-summernote')) !!}
-        </p>
-        <p>
-            {!! Form::label('alias', 'Pilih Alias', array('class' => 'control-label')) !!}
-            {!! Form::select('alias', config('master.kontak'), $data->alias, array('id' => 'alias', 'class' => 'select2 form-control alias', 'placeholder'=>'Pilih','style' => 'width:100%','style' => 'width:100%')) !!}
-        </p>
-    </div>
+       
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
-<div class="row">
-	<div class="col-md-12">
-        <span class="pesan"></span>
-        <div id="output"></div>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div id="statustxt">0%</div>
-            </div>
-        </div>
-	</div>
 </div>
+
 {!! Form::close() !!}
 <style>
     .select2-container {
@@ -43,7 +64,9 @@
 <script src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.\Auth::id().'/ajax.js') }}"></script>
 <script src="{{ asset('backend/fromplugin/summernote/summernote.js') }}" async=""></script>
 <script type="text/javascript">
-    $('.modal-title').html('<span class="fa fa-edit"></span> Ubah {{$halaman->nama}}');
+    $('.kirim-modal').html('Submit');
+    $('.kirim-modal').attr('class','btn btn-sm kirim-modal float-right submit-ubah btn-primary');
+    $('.modal-title').html('<span class="fa fa-edit"></span> Lihat  {{$halaman->nama}}');
     $('.js-summernote').summernote({
         // toolbar: [['para', ['ul', 'ol']]],
         height: 200,

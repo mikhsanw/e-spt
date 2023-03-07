@@ -9,7 +9,19 @@ return [
     | Untuk Pengaturan standar GrandMaster
     |
     */
+    'status_spt'=>[
+        '0'=>'Belum Dilihat',
+        '1'=>'Sudah Dilihat',
+        '2'=>'Diterima',
+        '3'=>'Revisi',
+        '4'=>'Ditolak'
+    ],
 
+    'angkutan'=>[
+        'darat'=>'Darat',
+        'laut'=>'Laut',
+        'udara'=>'Udara',
+    ],
     'aplikasi' =>   [
                         'nama'          => 'E-SPT',
                         'singkatan'     => 'E_SPT',
