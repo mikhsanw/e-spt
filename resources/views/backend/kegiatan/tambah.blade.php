@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-12">
         <p>
-            {!! Form::label('nama', 'Masukkan nama', array('class' => 'control-label')) !!}
+            {!! Form::label('nama', 'Masukkan Nama', array('class' => 'control-label')) !!}
             {!! Form::text('nama', null, array('id' => 'nama', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
         <p>
@@ -10,7 +10,7 @@
             {!! Form::text('kode_rekening', null, array('id' => 'kode_rekening', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
         <p>
-            {!! Form::label('bidang_id', 'Pilih bidang', array('class' => 'control-label')) !!}
+            {!! Form::label('bidang_id', 'Pilih Bidang', array('class' => 'control-label')) !!}
             {!! Form::select('bidang_id', $bidang, null, array('id' => 'bidang', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
     </div>

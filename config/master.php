@@ -71,8 +71,8 @@ return [
         '1' => 'Tidak Aktif'
     ],
     'jenis_spt'=>[
-        'spt' => 'SPT',
-        'sppd' => 'SPPD',
+        'SPT' => 'SPT',
+        'SPPD' => 'SPPD',
     ],
     'tingkat_jabatan'=>[
         'B' => 'Tingkat B',
