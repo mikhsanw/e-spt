@@ -37,7 +37,7 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<div class="container">
+			<div class="container" style="max-width: none;">
 				<!-- Main content -->
 				@if(is_null($halaman))
 					@yield('content')
