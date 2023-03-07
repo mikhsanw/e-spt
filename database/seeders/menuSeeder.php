@@ -12,6 +12,22 @@ class menuSeeder extends Seeder
         DB::table('menus')->truncate();
         $isi='[
           {
+            "id": 36,
+            "parent_id": null,
+            "kode": "datamaster",
+            "nama": "Data Master",
+            "link": "datamaster",
+            "icon": "fas fa-database",
+            "tampil": 1,
+            "urut": 1,
+            "status": 1,
+            "detail": {
+              "model": "",
+              "title": "",
+              "keterangan": ""
+            }
+          },
+          {
             "id": 10,
             "parent_id": null,
             "kode": "pengaturan",
@@ -19,7 +35,7 @@ class menuSeeder extends Seeder
             "link": "pengaturan",
             "icon": "fas fa-cogs",
             "tampil": 1,
-            "urut": 1,
+            "urut": 2,
             "status": 1,
             "detail": {
               "model": "",
@@ -35,7 +51,7 @@ class menuSeeder extends Seeder
             "link": "pengaturanroot",
             "icon": "fab fa-android",
             "tampil": 1,
-            "urut": 2,
+            "urut": 3,
             "status": 1,
             "detail": {
               "model": "",
@@ -51,7 +67,7 @@ class menuSeeder extends Seeder
             "link": "slider",
             "icon": "fas fa-sliders-h",
             "tampil": 1,
-            "urut": 3,
+            "urut": 4,
             "status": 1,
             "detail": {
               "model": "foto",
@@ -67,7 +83,7 @@ class menuSeeder extends Seeder
             "link": "kontak",
             "icon": "far fa-address-book",
             "tampil": 1,
-            "urut": 4,
+            "urut": 5,
             "status": 1,
             "detail": {
               "model": "Kontak",
@@ -169,6 +185,102 @@ class menuSeeder extends Seeder
               "model": "",
               "title": null,
               "keterangan": null
+            }
+          },
+          {
+            "id": 37,
+            "parent_id": 36,
+            "kode": "opd",
+            "nama": "OPD",
+            "link": "opd",
+            "icon": "fas fa-building",
+            "tampil": 1,
+            "urut": 1,
+            "status": 1,
+            "detail": {
+              "model": "Opd",
+              "title": null,
+              "keterangan": null
+            }
+          },
+          {
+            "id": 38,
+            "parent_id": 36,
+            "kode": "bidang",
+            "nama": "Bidang",
+            "link": "bidang",
+            "icon": "fas fa-th-list",
+            "tampil": 1,
+            "urut": 2,
+            "status": 1,
+            "detail": {
+              "model": "Bidang",
+              "title": "",
+              "keterangan": ""
+            }
+          },
+          {
+            "id": 39,
+            "parent_id": 36,
+            "kode": "jabatan",
+            "nama": "Jabatan",
+            "link": "jabatan",
+            "icon": "fas fa-star-half-alt",
+            "tampil": 1,
+            "urut": 3,
+            "status": 1,
+            "detail": {
+              "model": "Jabatan",
+              "title": "",
+              "keterangan": ""
+            }
+          },
+          {
+            "id": 40,
+            "parent_id": 36,
+            "kode": "pegawai",
+            "nama": "Pegawai",
+            "link": "pegawai",
+            "icon": "fas fa-address-card",
+            "tampil": 1,
+            "urut": 4,
+            "status": 1,
+            "detail": {
+              "model": "Pegawai",
+              "title": "",
+              "keterangan": ""
+            }
+          },
+          {
+            "id": 41,
+            "parent_id": 36,
+            "kode": "kegiatan",
+            "nama": "Kegiatan",
+            "link": "kegiatan",
+            "icon": "far fa-calendar-plus",
+            "tampil": 1,
+            "urut": 5,
+            "status": 1,
+            "detail": {
+              "model": "Kegiatan",
+              "title": "",
+              "keterangan": ""
+            }
+          },
+          {
+            "id": 42,
+            "parent_id": 36,
+            "kode": "nomorterakhir",
+            "nama": "Nomor Terakhir",
+            "link": "nomorterakhir",
+            "icon": "fas fa-sort-numeric-down",
+            "tampil": 1,
+            "urut": 6,
+            "status": 1,
+            "detail": {
+              "model": "NomorTerakhir",
+              "title": "",
+              "keterangan": ""
             }
           }
         ]';

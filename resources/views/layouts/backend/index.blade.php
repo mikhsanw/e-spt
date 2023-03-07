@@ -11,8 +11,8 @@
    
 	@if($aplikasi->file_favicon)
 		<link rel="icon" type="image/png" sizes="32x32" href="{{ asset($aplikasi->file_favicon->url_stream)??'' }}">
-		<title>@stack('title') | {{$aplikasi->singkatan.' '.$aplikasi->daerah}}</title>
 	@endif
+	<title>@stack('title') | {{$aplikasi->singkatan.' '.$aplikasi->daerah}}</title>
     
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="{{url('backend/main/css/vendors_css.css')}}">

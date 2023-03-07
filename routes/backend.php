@@ -62,14 +62,57 @@ Route::group(['prefix' => config('master.url.admin')], function () {
             Route::get('/hapus/{id}', 'kontakController@hapus');
         });
         Route::resource('kontak', 'kontakController');
-        // aplikasi
 
+        // opd
+        Route::prefix('opd')->as('opd')->group(function () {
+            Route::get('/data', 'opdController@data');
+            Route::get('/hapus/{id}', 'opdController@hapus');
+        });
+        Route::resource('opd', 'opdController');
+        
+        // jabatan
+        Route::prefix('jabatan')->as('jabatan')->group(function () {
+            Route::get('/data', 'jabatanController@data');
+            Route::get('/hapus/{id}', 'jabatanController@hapus');
+        });
+        Route::resource('jabatan', 'jabatanController');
+        
+        // bidang
+        Route::prefix('bidang')->as('bidang')->group(function () {
+            Route::get('/data', 'bidangController@data');
+            Route::get('/hapus/{id}', 'bidangController@hapus');
+        });
+        Route::resource('bidang', 'bidangController');
+
+        // kegiatan
+        Route::prefix('kegiatan')->as('kegiatan')->group(function () {
+            Route::get('/data', 'kegiatanController@data');
+            Route::get('/hapus/{id}', 'kegiatanController@hapus');
+        });
+        Route::resource('kegiatan', 'kegiatanController');
+
+        // nomorterakhir
+        Route::prefix('nomorterakhir')->as('nomorterakhir')->group(function () {
+            Route::get('/data', 'nomorTerakhirController@data');
+            Route::get('/hapus/{id}', 'nomorTerakhirController@hapus');
+        });
+        Route::resource('nomorterakhir', 'nomorTerakhirController');
+        
+        // pegawai
+        Route::prefix('pegawai')->as('pegawai')->group(function () {
+            Route::get('/data', 'pegawaiController@data');
+            Route::get('/hapus/{id}', 'pegawaiController@hapus');
+        });
+        Route::resource('pegawai', 'pegawaiController');
+
+        // sptmasuk
         Route::prefix('sptmasuk')->as('sptmasuk')->group(function () {
             Route::get('/data', 'sptController@data');
             Route::get('/hapus/{id}', 'sptController@hapus');
         });
         Route::resource('sptmasuk', 'sptController');
-
+        
+        // aplikasi
         Route::prefix('aplikasi')->as('aplikasi')->group(function () {
             Route::get('/data/{id?}', 'aplikasiController@data');
             Route::get('/logo/{id}', 'aplikasiController@logo');
