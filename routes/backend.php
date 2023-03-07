@@ -105,6 +105,13 @@ Route::group(['prefix' => config('master.url.admin')], function () {
         });
         Route::resource('pegawai', 'pegawaiController');
 
+        // sptmasuk
+        Route::prefix('sptmasuk')->as('sptmasuk')->group(function () {
+            Route::get('/data', 'sptController@data');
+            Route::get('/hapus/{id}', 'sptController@hapus');
+        });
+        Route::resource('sptmasuk', 'sptController');
+        
         // aplikasi
         Route::prefix('aplikasi')->as('aplikasi')->group(function () {
             Route::get('/data/{id?}', 'aplikasiController@data');

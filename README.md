@@ -11,14 +11,14 @@ NEW MASTER by MIKHSANW
 ### Installation
 1. Clone the repository
 2. Run `composer install`
-3. Run `php artisan key:generate`
-4. Run `copy .env.example` to `.env`
+3. Run `copy .env.example` to `.env`
 4. Create a database and configure it in `.env`
-5. Run `php artisan migrate --seed`
-6. Run `php artisan serve`
-7. Visit `http://localhost:8000` in your browser
-8. Login with `username: root password: root`
-9. Enjoy!
+5. Run `php artisan key:generate`
+6. Run `php artisan migrate --seed`
+7. Run `php artisan serve`
+8. Visit `http://localhost:8000` in your browser
+9. Login with `username: root password: root`
+10. Enjoy!
 
 ### Special laragon-wamp web server
 1. uncomment upload_tmp_dir = C:\laragon\tmp (path to laragon tmp folder) in php.ini
