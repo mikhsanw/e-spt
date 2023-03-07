@@ -2,9 +2,7 @@
 @push('title',ucwords(strtolower($halaman->nama)))
 @push('header',ucwords(strtolower($halaman->nama)))
 @push('tombol')
-<button class="waves-effect waves-light btn bg-gradient-primary text-white py-2 px-3 tambah">
-	Tambah
-</button>
+
 @endpush
 @section('content')
 <div class="panel-container show">
@@ -14,7 +12,12 @@
 				<tr>
 					<th class="width-1">No</th>
 					<th class="text-center">NO SPT</th>
-					<th class="text-center">Maksud Tujuan</th>
+					<th class="text-center">Tujuan</th>
+					<th class="text-center">Bidang</th>
+					<th class="text-center">Tgl. Berangkat</th>
+					<th class="text-center">Tgl. Kembali</th>
+					<th class="text-center">Tgl. Pengajuan</th>
+					<th class="text-center">Status</th>
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>
 			</thead>
