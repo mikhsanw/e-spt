@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Helpers\Help;
-use App\Http\Controllers\Controller;
-use App\Model\Aksesgrup;
-use App\Model\Loginlog;
 use App\Model\User;
+use App\Helpers\Help;
+use App\Model\Bidang;
+use App\Model\Loginlog;
+use App\Model\Aksesgrup;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class userController extends Controller
 {
@@ -76,8 +77,11 @@ class userController extends Controller
 
     public function create()
     {
-        $aksesgrup=Aksesgrup::byLevel()->pluck('nama', 'id');
-        return view('backend.user.tambah', compact('aksesgrup'));
+        $data=[
+            'aksesgrup'     => Aksesgrup::byLevel()->pluck('nama', 'id'),
+            'bidang'        => Bidang::pluck('nama','id')
+        ];
+        return view('backend.user.tambah', $data);
     }
 
     public function store(Request $request)
@@ -108,8 +112,13 @@ class userController extends Controller
     public function edit($id)
     {
         $user=User::find($id);
-        $aksesgrup=Aksesgrup::byLevel()->pluck('nama', 'id');
-        return view('backend.user.ubah', compact('user', 'aksesgrup'));
+        $data=[
+            'user'     => User::find($id),
+            'aksesgrup'     => Aksesgrup::byLevel()->pluck('nama', 'id'),
+            'bidang'        => Bidang::pluck('nama','id')
+        ];
+
+        return view('backend.user.ubah', $data);
     }
 
     public function update(Request $request, $id)

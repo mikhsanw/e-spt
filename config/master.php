@@ -93,9 +93,18 @@ return [
         'E' => 'Tingkat E',
         'F' => 'Tingkat F',
     ],
+    'angkutan'=>[
+        'Darat' => 'Darat',
+        'Laut' => 'Laut',
+        'Udara' => 'Udara'
+    ],
     'status_foto'=>[
         'galeri'               => '0',
         'slider'               => '1',
+    ],
+    'penandatangan'=>[
+    '0'                      => 'Tidak',
+    '1'                      => 'Ya',
     ],
     
 ];

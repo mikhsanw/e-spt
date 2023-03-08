@@ -2,27 +2,34 @@
 <div class="row">
     <div class="col-md-12">
         <p>
+            {!! Form::label('nip', 'Masukkan NIP', array('class' => 'control-label')) !!}
+            {!! Form::text('nip', $data->nip, array('id' => 'nip', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+        </p>
+        <p>
             {!! Form::label('nama', 'Masukkan Nama', array('class' => 'control-label')) !!}
             {!! Form::text('nama', $data->nama, array('id' => 'nama', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
         <p>
-            {!! Form::label('singkatan', 'Masukkan singkatan', array('class' => 'control-label')) !!}
-            {!! Form::text('singkatan', $data->singkatan, array('id' => 'singkatan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+            {!! Form::label('pangkat', 'Masukkan Pangkat', array('class' => 'control-label')) !!}
+            {!! Form::text('pangkat', $data->pangkat, array('id' => 'pangkat', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
         <p>
-            {!! Form::label('kode', 'Masukkan kode', array('class' => 'control-label')) !!}
-            {!! Form::text('kode', $data->kode, array('id' => 'kode', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+            {!! Form::label('golongan', 'Masukkan Golongan', array('class' => 'control-label')) !!}
+            {!! Form::text('golongan', $data->golongan, array('id' => 'golongan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
         <p>
-            {!! Form::label('file_kop', 'Upload Kop SPT', array('class' => 'control-label')) !!}
-            {!! Form::file('file_kop', null, array('id' => 'file_kop', 'class' => 'form-control')) !!}
+            {!! Form::label('status', 'Pilih status', array('class' => 'control-label')) !!}
+            {!! Form::select('status', config('master.status_aktif'), $data->status, array('id' => 'status', 'class' => 'form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
+        </p>
+        <p>
+            {!! Form::label('bidang_id', 'Pilih Bidang', array('class' => 'control-label')) !!}
+            {!! Form::select('bidang_id', $bidang, $data->bidang_id, array('id' => 'bidang', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
+        </p>
+        <p>
+            {!! Form::label('jabatan_id', 'Pilih jabatan', array('class' => 'control-label')) !!}
+            {!! Form::select('jabatan_id', $jabatan, $data->jabatan_id, array('id' => 'jabatan', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
     </div>
-    @if($data->file)
-    <div class="col-md-12">
-        <img src="{{$data->file->url_stream.'?t='.time() ?? '#'}}" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%"/>
-    </div>
-    @endif
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
 <div class="row">
@@ -47,6 +54,7 @@
 <script src="{{ URL::asset(config('master.aplikasi.author').'/js/ajax_progress.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.\Auth::id().'/ajax.js') }}"></script>
 <script src="{{ asset('backend/fromplugin/summernote/summernote.js') }}" async=""></script>
+<script src="{{ asset('backend/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js') }}" async=""></script>
 <script type="text/javascript">
     $('.modal-title').html('<span class="fa fa-edit"></span> Ubah {{$halaman->nama}}');
     $('.js-summernote').summernote({
@@ -54,4 +62,5 @@
         height: 200,
         dialogsInBody: true
     });
+    $('#tanggal').daterangepicker();
 </script>

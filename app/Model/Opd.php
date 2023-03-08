@@ -28,8 +28,8 @@ class Opd extends Model
         return $this->hasMany('App\Model\NomorTerakhir');
     }
 
-    public function file_kop()
+    public function file()
     {
-        return $this->morphOne(File::class, 'morph')->where('name', '=', 'kop');
+        return $this->morphOne(File::class, 'morph');
     }
 }

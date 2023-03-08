@@ -13,6 +13,10 @@
             {!! Form::label('kode', 'Masukkan Kode', array('class' => 'control-label')) !!}
             {!! Form::text('kode', null, array('id' => 'kode', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
+        <p>
+            {!! Form::label('file_kop', 'Upload Kop SPT', array('class' => 'control-label')) !!}
+            {!! Form::file('file_kop', null, array('id' => 'file_kop', 'class' => 'form-control')) !!}
+        </p>
     </div>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>

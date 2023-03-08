@@ -30,6 +30,12 @@
             {!! Form::select('level', config('master.level'), 5, array('id' => 'level', 'class' => 'form-control')) !!}
         </div>
     </div>
+    <div class="col-md-12 form-group">
+        <div class="form-group">
+            {!! Form::label('Bidang', 'Bidang', array('class' => 'control-label')) !!}
+            {!! Form::select('bidang_id', $bidang, null, array('id' => 'bidang_id', 'placeholder'=>'- Pilih Bidang -', 'class' => 'form-control')) !!}
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-12">

@@ -112,6 +112,14 @@ Route::group(['prefix' => config('master.url.admin')], function () {
         });
         Route::resource('sptmasuk', 'sptController');
         
+        // sptkeluar
+        Route::prefix('sptkeluar')->as('sptkeluar')->group(function () {
+            Route::get('/data', 'sptKeluarController@data');
+            Route::get('/hapus/{id}', 'sptKeluarController@hapus');
+            Route::get('/getrekening/{id}', 'sptKeluarController@getrekening');
+        });
+        Route::resource('sptkeluar', 'sptKeluarController');
+        
         // aplikasi
         Route::prefix('aplikasi')->as('aplikasi')->group(function () {
             Route::get('/data/{id?}', 'aplikasiController@data');

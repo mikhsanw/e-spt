@@ -15,7 +15,7 @@ class Jabatan extends Model
         'id'=>'string',
     ];
     protected $fillable=[
-        'id', 'nama', 'tingkat'
+        'id', 'nama', 'tingkat','penandatangan'
     ];
 
     public function pegawai()

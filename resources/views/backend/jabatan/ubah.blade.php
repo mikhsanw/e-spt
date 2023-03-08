@@ -9,6 +9,10 @@
             {!! Form::label('tingkat', 'Pilih Tingkat', array('class' => 'control-label')) !!}
             {!! Form::select('tingkat', config('master.tingkat_jabatan'), $data->tingkat, array('id' => 'tingkat', 'class' => 'form-control tingkat', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
+        <p>
+            {!! Form::label('penandatangan', 'Pilih Penandatangan', array('class' => 'control-label')) !!}
+            {!! Form::select('penandatangan', config('master.penandatangan'), $data->penandatangan, array('id' => 'penandatangan', 'class' => 'form-control tingkat','placeholder'=>'Pilih','style' => 'width:100%')) !!}
+        </p>
     </div>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
