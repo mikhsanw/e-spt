@@ -31,7 +31,6 @@
         "league/flysystem-ftp": "^3.0",
         "madnest/madzipper": "^1.2",
         "ojisatriani/fungsi": "^1.0",
-        "phpoffice/phpword": "^0.18.3",
         "psr/simple-cache": "2.0",
         "setasign/fpdi": "^2.3",
         "tecnickcom/tcpdf": "^6.5",

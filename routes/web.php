@@ -2,16 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('sptpdf',function (){
+    $customPaper = array(0,0,595.276,935.433);
+  $pdf = PDF::loadView('backend.topdf.spt')->setPaper($customPaper,'potrait');
+  return $pdf->stream('tes.pdf');
+  // return view('backend.topdf.spt');
+});
 
 //frontend
 Route::get('ojisatriani/noauth/{folder}/{file}', 'Backend\jsController@backendnoauth');

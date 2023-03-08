@@ -93,13 +93,18 @@ class sptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    function gensurat($data){
+       return \App\Templater::generate_surat($data,'spt');
+        
+    }
     public function edit($id)
     {   $data = $this->model::find($id);
         if($data->status_spt=='0'){
         $this->model::whereId($id)->update(['status_spt'=>'1']);
         }
         $data=[
-            'data'    => $data
+            'data'    => $data,
+            'filespt'    => \App\Templater::generate_surat(json_decode($data,true),'spt'),
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }

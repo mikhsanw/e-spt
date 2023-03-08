@@ -46,8 +46,16 @@
 
 @endif
 @endif
+
+
         </p>
        
+        <object data="{{$filespt}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+            <p>
+                File PDF tidak dapat ditampilkan, silahkan download file
+              
+            </p>
+        </object>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
 </div>
