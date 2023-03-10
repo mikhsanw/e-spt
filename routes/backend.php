@@ -108,6 +108,8 @@ Route::group(['prefix' => config('master.url.admin')], function () {
         // sptmasuk
         Route::prefix('sptmasuk')->as('sptmasuk')->group(function () {
             Route::get('/data', 'sptController@data');
+            Route::get('/viewspt/{id?}', 'sptController@viewspt');
+            Route::get('/viewsppd/{id?}/{pegawai?}', 'sptController@viewsppd');
             Route::get('/hapus/{id}', 'sptController@hapus');
         });
         Route::resource('sptmasuk', 'sptController');

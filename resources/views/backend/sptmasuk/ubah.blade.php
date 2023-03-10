@@ -50,12 +50,69 @@
 
         </p>
        
-        <object data="{{$filespt}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+        <!-- <object data="{{url('sptmasuk/viewspt/'.$data->id)}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
             <p>
                 File PDF tidak dapat ditampilkan, silahkan download file
               
             </p>
+        </object> -->
+        <p>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Nota Dinas</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">SPT</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">SPPD</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  <object data="{{url('sptmasuk/viewspt/'.$data->id)}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+                File PDF tidak dapat ditampilkan, silahkan download file
+              
         </object>
+  </div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="sppdview" style="display:none">
+    <button class="btn btn-danger btn-xs float-end pull-right my-3" onclick="$('.listsppd').show();$('.sppdview').hide()" type="button"> <i class="fas fa-close"></i> Tutup</button>
+  <object data="{{url('sptmasuk/viewsppd/'.$data->id)}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px;">
+                File PDF tidak dapat ditampilkan, silahkan download file
+              
+        </object>
+</div> 
+
+    <table class="table table-hover listsppd">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>NIP</th>
+                <th>Nama</th>
+                <th>Bidang</th>
+                <th>Jabatan</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($pegawai as $k=>$p)
+            <tr>
+                <td>{{$k+1}}</td>
+                <td>{{$p->nip}}</td>
+                <td>{{$p->nama_pegawai}}</td>
+                <td>{{$p->nama_bidang}}</td>
+                <td>{{$p->jabatan}}</td>
+                <td><button onclick="$('.listsppd').hide();$('.sppdview').show();" class="btn btn-info btn-sm" type="button"> <i class="fa fa-eye" aria-hidden="true"></i> lihat</button></td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+  </div>
+</div>
+        </p>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
 </div>

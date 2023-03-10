@@ -16,7 +16,7 @@
 					<th class="text-center">Bidang</th>
 					<th class="text-center">Tgl. Berangkat</th>
 					<th class="text-center">Tgl. Kembali</th>
-					<th class="text-center">Tgl. Pengajuan</th>
+					<th class="text-center">Waktu</th>
 					<th class="text-center">Status</th>
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>
@@ -24,6 +24,7 @@
 		</table>
 	</div>
 </div>
+
 @endsection
 @push('js')
 @include('layouts.backend.js.datatable-js')

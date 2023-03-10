@@ -39,6 +39,43 @@ class Help extends Fungsi
         }
         return $model;
     }
+    static function lamahari($date1,$date2){
+        $earlier = new DateTime($date1);
+        $later = new DateTime($date2);
+        
+       return $later->diff($earlier)->format("%a"); //3
+
+    }
+
+    static function durasitanggal($date1,$date2){
+        $tgl1 = date('d',strtotime($date1));
+        $tgl2 = date('d',strtotime($date2));
+        $bln1 = date('m',strtotime($date1));
+        $bln2 = date('m',strtotime($date2));
+        $thn = date('Y',strtotime($date2));
+
+        if($bln1 == $bln2){
+        $bln = $tgl1 .' s/d '.$tgl2.' '.self::blnindo($bln1).' '.$thn;
+        }
+        return $bln;
+    }
+    static function blnindo($bln){
+        $bulan_array = array(
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        );
+        return $bulan_array[ltrim($bln,0)];
+    }
 static function tglindo($val)
 {
 

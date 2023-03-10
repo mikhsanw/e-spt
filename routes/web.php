@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('sptpdf',function (){
     $customPaper = array(0,0,595.276,935.433);
-  $pdf = PDF::loadView('backend.topdf.spt')->setPaper($customPaper,'potrait');
+  $pdf = PDF::loadView('backend.topdf.sppd')->setPaper($customPaper,'potrait');
   return $pdf->stream('tes.pdf');
   // return view('backend.topdf.spt');
 });
