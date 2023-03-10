@@ -15,7 +15,7 @@ class SptPegawai extends Model
         'id'=>'string',
     ];
     protected $fillable=[
-        'id', 'no_sppd', 'status_dibaca','spt_id', 'pegawai_id'
+        'id', 'no_sppd', 'status_dibaca','spt_id', 'pegawai_id','bidang_id','jabatan_id'
     ];
 
     public function spt()

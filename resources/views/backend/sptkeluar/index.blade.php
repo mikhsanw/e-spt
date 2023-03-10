@@ -13,11 +13,9 @@
 			<thead class="bg-primary">
 				<tr>
 					<th class="width-1">No</th>
-					<th class="text-center">NO SPT</th>
+					<th class="text-center">Maksud Perjalanan</th>
 					<th class="text-center">Tujuan</th>
-					<th class="text-center">Bidang</th>
-					<th class="text-center">Tgl. Berangkat</th>
-					<th class="text-center">Tgl. Kembali</th>
+					<th class="text-center">Tanggal Perjalanan</th>
 					<th class="text-center">Tgl. Pengajuan</th>
 					<th class="text-center">Status</th>
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>

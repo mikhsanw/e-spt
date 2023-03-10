@@ -11,11 +11,9 @@ $(document).ready(function() {
 		ajax: "{{ url($url_admin.'/'.$kode.'/data') }}",
 		columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-				{ data: 'no_spt' },
+				{ data: 'maksud_perjalanan' },
 				{ data: 'tempat_tujuan' },
-				{ data: 'bidang.nama' },
-				{ data: 'tanggal_berangkat' },
-				{ data: 'tanggal_kembali' },
+				{ data: 'tanggal_perjalanan' },
 				{ data: 'tanggal_pengajuan' },
 				{ data: 'status_spt' },
 				{ data: 'action', orderable: false, searchable: false}

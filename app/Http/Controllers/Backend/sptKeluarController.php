@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Helpers\Help;
 use App\Model\Bidang;
 use App\Model\Pegawai;
 use App\Model\Kegiatan;
@@ -9,6 +10,7 @@ use App\model\SptPegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,7 +24,7 @@ class sptKeluarController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= $this->model::with('bidang');
+            $data= $this->model::with('bidang')->whereBidangId(Auth::user()->bidang_id);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
@@ -30,6 +32,9 @@ class sptKeluarController extends Controller
                </a>&nbsp; &nbsp;
              
            </div>')
+           ->addColumn('tanggal_perjalanan',function($row){
+                return Help::durasitanggal($row->tanggal_berangkat,$row->tanggal_kembali);
+            })
            ->addColumn('tanggal_pengajuan',function($row){
                 return Help::time_ago($row->created_at);
             })
@@ -119,14 +124,16 @@ class sptKeluarController extends Controller
                             ]);
                     }
 
-                    foreach($request->file_notadinas as $file){
+                    if ($request->hasFile('file_notadinas')) {
+                        foreach($request->file_notadinas as $key => $file){
                             $spt->file_notadinas()->Create([
                                 'name'                  => 'notadinas',
                                 'data'                      =>  [
                                     'disk'      => config('filesystems.default'),
-                                    'target'    => Storage::putFile($this->kode.'/notadinas/'.date('Y').'/'.date('m').'/'.date('d'),$file->file('file_notadinas')),
+                                    'target'    => Storage::putFile($this->kode.'/notadinas/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('file_notadinas')[$key]),
                                 ]
                             ]);
+                        }
                     }
                 }
                 $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
