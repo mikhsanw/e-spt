@@ -27,11 +27,13 @@ class sptKeluarController extends Controller
             $data= $this->model::with('bidang')->whereBidangId(Auth::user()->bidang_id);
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
-               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-eye text-warning"></i>
-               </a>&nbsp; &nbsp;
-             
-           </div>')
+                <a class="lihat" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="{{ $id }}" href="#lihat-{{ $id }}">
+                    <i class="fas fa-eye text-info"></i>
+                </a>&nbsp; &nbsp;
+                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
+                   <i class="fa fa-edit text-warning"></i>
+                </a>&nbsp; &nbsp;
+            </div>')
            ->addColumn('tanggal_perjalanan',function($row){
                 return Help::durasitanggal($row->tanggal_berangkat,$row->tanggal_kembali);
             })

@@ -73,6 +73,8 @@ return [
         'uuid'=>'regex:/^[a-zA-Z0-9\-\/ ]+$/',
         'text'=>'regex:/^[a-zA-Z0-9\.\-\/\:\"\,\ ]+$/',
         'json'=>'regex:/^[a-zA-Z0-9\.\-\/\:\{\}\(\)\"\,\[\]\_\<\>\&\;\?\!\ ]+$/',
+        'file'=>'mimes:pdf,rar,zip',
+        'image'=>'mimes:jpg,jpeg,png',
     ],
     'status_pengumuman'=>[
         'danger'=>'Sangat Penting',

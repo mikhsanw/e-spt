@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Model\Berita');
     }
 
+    public function bidang()
+    {
+        return $this->belongsTo('App\Model\Bidang');
+    }
+
     public function getUnorIdAttribute()
     {
         return $this->penempatan()->whereDefinitif(TRUE)->first()->unor_id ?? ($this->penempatan()->first()->unor_id ?? null);

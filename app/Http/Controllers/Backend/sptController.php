@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Facades\DataTables;
-use Help;
 use PDF;
+use Help;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
+
 class sptController extends Controller
 {
     public function index()
@@ -18,7 +20,9 @@ class sptController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()){
-            $data= $this->model::with('bidang');
+            $data= $this->model::with('bidang')->whereHas('bidang', function($query){
+                $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+            });
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
