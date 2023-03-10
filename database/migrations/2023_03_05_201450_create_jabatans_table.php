@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nama')->nullable();
             $table->char('tingkat')->nullable();
+            $table->char('penandatangan',2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

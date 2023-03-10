@@ -7,20 +7,26 @@
                 <small class="text-danger"> (kosongkan jika tanpa nota dinas)</small>
             </div>
             <div class="box-body">
-                <div class="form-group row">
-                    <label class="col-form-label col-md-3">Upload Nota Dinas</label>
-                    <div class="col-md-9">
-                        <div class="custom-file">
-                            {!! Form::file('file_notadinas', array('id' => 'file_notadinas', 'class' => 'custom-file-input')) !!}
-                            <label class="custom-file-label" for="file_notadinas">Choose file</label>
+                <div class="b-1 p-4">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Upload Nota Dinas</label>
+                        <div class="col-md-9">
+                            <div class="custom-file">
+                                {!! Form::file('file_notadinas[]', array('id' => 'file_notadinas', 'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Nota Dinas sebagai Dasar</label>
+                        <div class="col-md-9">
+                            {!! Form::textarea('perihal_notadinas[]', null, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-md-3">Perihal Nota Dinas</label>
-                    <div class="col-md-9">
-                        {!! Form::textarea('perihal_notadinas', null, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
-                    </div>
+                <div class="dasar"></div>
+                <input type="hidden" value="0" id="total_add">
+                <div class="text-right p-3">
+                    <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5" onclick="add()">Tambah</button>
                 </div>
             </div>
         </div>
@@ -48,12 +54,22 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-form-label col-md-3">Angkutan</label>
+                    <label class="col-form-label col-md-3">Pegawai yang ditugaskan</label>
                     <div class="col-md-9">
-                        {!! Form::select('angkutan[]', config('master.angkutan'), null, array('id' => 'angkutan', 'class' => 'form-control select2 angkutan', 'multiple' => 'multiple','style' => 'width:100%')) !!}
+                        <select multiple="multiple" name="pegawai_id[]" id="pegawai_id" class="form-control pegawai_id select2" style="width:100%">
+                            @foreach($pegawai as $item)
+                                <option value="{{$item->id}}">{{$item->nama}} ( {{$item->jabatan->nama.' '.($item->bidang?'di Bidang '.$item->bidang->nama:'')}} )</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Angkutan</label>
+                    <div class="col-md-9">
+                        {!! Form::select('angkutan[]', config('master.angkutan'), null, array('id' => 'angkutan', 'class' => 'selectpicker', 'multiple' => 'multiple','style' => 'width:100%')) !!}
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 50px;">
                     <div class="row">
                         <div class="col-6">
                             <label>Tempat Berangkat</label>
@@ -61,7 +77,7 @@
                         </div>
                         <div class="col-6">
                             <label>Tempat Tujuan</label>
-                            {!! Form::text('rekening', null, array('id' => 'tempat_tujuan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+                            {!! Form::text('tempat_tujuan', null, array('id' => 'tempat_tujuan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
                         </div>
                     </div>
                 </div>
@@ -77,16 +93,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row" style="margin-top: 50px;">
                     <label class="col-form-label col-md-3">Pejabat Penandatangan</label>
                     <div class="col-md-9">
-                        {!! Form::select('penandatangan_id', $penandatangan, null, array('id' => 'penandatangan_id', 'class' => 'form-control penandatangan_id select2', 'placeholder'=>'', 'style' => 'width:100%')) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-md-3">Pegawai yang ditugaskan</label>
-                    <div class="col-md-9">
-                        {!! Form::select('pegawai_id[]', $pegawai->pluck('nama','id'), null, array('id' => 'pegawai_id', 'class' => 'form-control pegawai_id select2', 'placeholder'=>'', 'style' => 'width:100%')) !!}
+                        <select name="penandatangan_id" id="penandatangan_id" class="form-control penandatangan_id select2" style="width:100%">
+                            @foreach($penandatangan as $item)
+                                <option value="{{$item->id}}">{{$item->nama}} ( {{$item->jabatan->nama.' '.($item->bidang?'di Bidang '.$item->bidang->nama:'')}} )</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -107,29 +121,23 @@
 	</div>
 </div>
 {!! Form::close() !!}
-<style>
-    .select2-container {
-        z-index: 9999 !important;
-    }
-</style>
 <script src="{{ URL::asset('resources/vendor/jquery/jquery.enc.js') }}"></script>
 <script src="{{ URL::asset('resources/vendor/jquery/jquery.form.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/js/ajax_progress.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.\Auth::id().'/ajax.js') }}"></script>
-<script src="{{ asset('backend/fromplugin/summernote/summernote.js') }}" async=""></script>
 <script src="{{ asset('backend/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js') }}" async=""></script>
+<script src="{{ asset('backend/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
 <script type="text/javascript">
+    $('.selectpicker').selectpicker();
+
     $('.modal-title').html('<span class="fa fa-edit"></span> Tambah {{$halaman->nama}}');
-    $('.js-summernote').summernote({
-        // toolbar: [['para', ['ul', 'ol']]],
-        height: 200,
-        dialogsInBody: true
-    });
+    
     $('#tanggal').daterangepicker({
     locale: {
       format: 'DD/MM/YYYY'
     }
     });
+
     function myChangeFunction(select){
         $.ajax({
          type: 'get',
@@ -138,5 +146,36 @@
                $( ".rekening" ).val( result );
            }
         })
+    }
+    
+    function add(){
+        let new_no = parseInt($('#total_add').val()) + 1;
+        $('#total_add').val(new_no);
+  
+        $('.dasar').append (`
+        <div class="add_`+new_no+` b-1 p-4">
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Upload Nota Dinas</label>
+                <div class="col-md-9">
+                    <div class="custom-file">
+                        {!! Form::file('file_notadinas[]', array('id' => 'file_notadinas', 'class' => 'form-control')) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Nota Dinas sebagai Dasar</label>
+                <div class="col-md-9">
+                    {!! Form::textarea('perihal_notadinas[]', null, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
+                </div>
+            </div>
+            <div class="text-right">
+                <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5" title="Hapus Dasar" onclick="remove(`+new_no+`)">X</button>
+            </div>
+        </div>
+        `);
+    }
+
+    function remove(val) {
+        $('.add_' + val).remove();
     }
 </script>

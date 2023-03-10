@@ -15,7 +15,7 @@ class Pegawai extends Model
         'id'=>'string',
     ];
     protected $fillable=[
-        'id', 'nama', 'nip', 'pangkat', 'golongan','jabatan_id','status','bidang_id'
+        'id', 'nama', 'nip', 'pangkat', 'tempat_lahir','tanggal_lahir', 'golongan','jabatan_id','status','bidang_id'
     ];
 
     public function jabatan()
@@ -25,7 +25,7 @@ class Pegawai extends Model
 
     public function bidang()
     {
-        return $this->belongsTo('App\Model\bidang');
+        return $this->belongsTo('App\Model\Bidang');
     }
 
     public function spt()

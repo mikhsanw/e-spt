@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('pangkat')->nullable();
             $table->string('golongan')->nullable();
             $table->char('status', 1)->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->string('tanggal_lahir')->nullable();
             $table->foreignUuid('bidang_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->foreignUuid('jabatan_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->timestamps();

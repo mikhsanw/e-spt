@@ -34,6 +34,3 @@
 <script src="{{ asset('backend/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
 <script src="{{ asset('backend/assets/vendor_components/moment/min/moment.min.js')}}"></script>
 @endpush
-@push('css')
-<link rel="stylesheet" media="screen, print" href="{{ asset('backend/fromplugin/summernote/summernote.css') }}">
-@endpush

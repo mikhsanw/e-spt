@@ -24,8 +24,10 @@ return new class extends Migration
             $table->date('tanggal_kembali')->nullable();
             $table->date('tanggal_penetapan')->nullable();
             $table->char('status_spt',2)->nullable();
+            $table->json('perihal_notadinas')->nullable();
             $table->foreignUuid('bidang_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->foreignUuid('pegawai_id')->nullable()->constrained()->onDelete('CASCADE');
+            $table->foreignUuid('kegiatan_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->timestamps();
             $table->softDeletes();
         });

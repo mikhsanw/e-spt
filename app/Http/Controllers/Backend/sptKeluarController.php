@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Model\Bidang;
 use App\Model\Pegawai;
 use App\Model\Kegiatan;
+use App\model\SptPegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -57,11 +58,9 @@ class sptKeluarController extends Controller
     {
         $data=[
             'kegiatan'   => Kegiatan::whereBidangId(Auth::user()->bidang_id)->pluck('nama','id'),
-            'penandatangan'    => Pegawai::with(array('jabatan' => function($query)
-                            {
-                                $query->where('penandatangan', 1);
-                            
-                            }))->pluck('pegawais.nama','pegawais.id'),
+            'penandatangan'    => Pegawai::whereHas('jabatan', function($query){
+                                    $query->where('jabatans.penandatangan',1);  
+                                })->get(),
             'pegawai'    => Pegawai::all()
         ];
         return view('backend.'.$this->kode.'.tambah',$data);
@@ -77,16 +76,59 @@ class sptKeluarController extends Controller
     {
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
-                'nip'              => 'required|'.config('master.regex.json'),
-                'nama'              => 'required|'.config('master.regex.json'),
-                'golongan'              => 'required|'.config('master.regex.json'),
-                'pangkat'              => 'required|'.config('master.regex.json'),
+                'file_notadinas'              => 'required|array|min:1',
+                'perihal_notadinas'           => 'required|array|min:1',
+                'maksud_perjalanan'              => 'required|'.config('master.regex.text'),
+                'tanggal'              => 'required|'.config('master.regex.json'),
+                'pegawai_id'              => 'required|array|min:1',
+                'angkutan'              => 'required|array|min:1',
+                'tempat_berangkat'              => 'required|'.config('master.regex.text'),
+                'tempat_tujuan'              => 'required|'.config('master.regex.text'),
+                'kegiatan_id'              => 'required|'.config('master.regex.uuid'),
+                'penandatangan_id'              => 'required|'.config('master.regex.uuid'),
                 ]);
             if ($validator->fails()) {
                 $respon=['status'=>false, 'pesan'=>$validator->messages()];
             }
             else {
-                $this->model::create($request->all());
+                $tgl_explode = explode(' - ',$request->tanggal);
+                $spt = $this->model::create([
+                    'perihal_notadinas' => $request->perihal_notadinas,
+                    'maksud_perjalanan' => $request->maksud_perjalanan,
+                    'angkutan' => $request->angkutan,
+                    'tempat_berangkat' => $request->tempat_berangkat,
+                    'tempat_tujuan' => $request->tempat_tujuan,
+                    'tanggal_berangkat' => date('Y-m-d', strtotime(str_replace('/', '-', $tgl_explode[0]))),
+                    'tanggal_kembali' => date('Y-m-d', strtotime(str_replace('/', '-', $tgl_explode[1]))),
+                    'kegiatan_id' => $request->kegiatan_id,
+                    'pegawai_id' => $request->penandatangan_id,
+                    'bidang_id' => Auth::user()->bidang_id,
+                    'status_spt' => '0',
+                ]);
+                
+                if($spt){
+                    foreach($request->pegawai_id as $val)
+                    {
+                        $pgw = Pegawai::find($val);
+                        SptPegawai::create([
+                            'pegawai_id'=>$val,
+                            'spt_id'=>$spt->id,
+                            'status_dibaca' => '0',
+                            'bidang_id'    => $pgw->bidang_id,
+                            'jabatan_id'    => $pgw->jabatan_id
+                            ]);
+                    }
+
+                    foreach($request->file_notadinas as $file){
+                            $spt->file_notadinas()->Create([
+                                'name'                  => 'notadinas',
+                                'data'                      =>  [
+                                    'disk'      => config('filesystems.default'),
+                                    'target'    => Storage::putFile($this->kode.'/notadinas/'.date('Y').'/'.date('m').'/'.date('d'),$file->file('file_notadinas')),
+                                ]
+                            ]);
+                    }
+                }
                 $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
             }
             return $respon;

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->char('status_dibaca',2)->nullable();
             $table->foreignUuid('spt_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->foreignUuid('pegawai_id')->nullable()->constrained()->onDelete('CASCADE');
+            $table->foreignUuid('bidang_id')->nullable()->constrained()->onDelete('CASCADE');
+            $table->foreignUuid('jabatan_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->timestamps();
             $table->softDeletes();
         });
