@@ -3,27 +3,71 @@
 
 
 <style>
-    body {
-        font-face:arial
-    }
+ 
     .v-top {
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
         vertical-align:top;
     }
     .inline {
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
         display:inline-table
     }
     .col1 {
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
         display:inline-block;
-        width:25%
+        width:28%;
+        vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;
     }
     .col2 {
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
         display:inline-block;
-        width:68%
+        width:63%;
+        vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;
+    }
+    .colmid {
+        display:inline-block;
+        width:2%;
+        vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;
+
     }
     .rowcol {
         width:100%;padding-bottom:2px
     }
-    p {margin:0;padding:0}
+    p {margin:0;padding:0;
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;}
+                                                                    li{
+                                                                        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
+                                                                    }
 </style>
 <!-- <img src="{{$kop->file->url_stream.'?t='.time() ?? '#'}}" style="width:100%" alt="">
 <br>
@@ -33,18 +77,22 @@
     <span>NOMOR : </span>
 </center>
 
-<table style="width:100%;margin-top:30px">
+<table style="width:100%;margin-top:30px;font-family: Arial">
 <tr>
-    <td style="width:20%;">Dasar <span style="float:right">:</span></td>
+    <td style="width:20%;font-family: 'Arial', sans-serif;font-family: 'Arial Black', sans-serif;font-family: 'Arial Light', sans-serif;font-family: 'Arial CE', sans-serif;font-family: 'Arial CE MT Black', sans-serif;vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;">Dasar <span style="float:right">:</span></td>
     <td style="width:80%">
         <ol style="padding:0 20px;margin:0;">
-     
+        @foreach(json_decode(json_encode($data->perihal_notadinas)) as $r)
+        <li>{{$r}}</li>
+        @endforeach                                                         
         </ol>
     </td>
 </tr>
 <br>
 <tr>
-    <td colspan="2" align="center">MEMERINTAHKAN</td>
+    <td colspan="2" align="center" style="font-family: 'Arial', sans-serif;font-family: 'Arial Black', sans-serif;font-family: 'Arial Light', sans-serif;font-family: 'Arial CE', sans-serif;font-family: 'Arial CE MT Black', sans-serif;">MEMERINTAHKAN</td>
 </tr>
 <br>
 <tr>
@@ -53,11 +101,11 @@
     <ol style="padding:3px 0 0 20px;margin:0;display:block">
     @foreach($pegawai as $r)
             <li style="padding-bottom:10px">
-             <div class="rowcol"><div class="col1" >Nama</div><div class="col2">: {{$r->nama_pegawai}}</div></div>
-             <div class="rowcol"><div class="col1" >NIP</div><div class="col2">: {{$r->nip}}</div></div>
-             <div class="rowcol"><div class="col1" >Pangkat / Golongan</div><div class="col2">: {{$r->pangkat}} / {{$r->golongan}}</div></div>
-             <div class="rowcol"><div class="col1" style="vertical-align:top" >Jabatan</div><div class="col2">:{{$r->jabatan}} {{$r->nama_bidang}}</div></div>
-             <div class="rowcol"><div class="col1" >Unit Kerja</div><div class="col2">: {{$r->opd}}</div></div>
+             <div class="rowcol"><div class="col1" >Nama</div><div class="colmid">:</div><div class="col2"> {{$r->nama_pegawai}}</div></div>
+             <div class="rowcol"><div class="col1" >NIP</div><div class="colmid">:</div><div class="col2">{{$r->nip}}</div></div>
+             <div class="rowcol"><div class="col1" >Pangkat / Golongan</div><div class="colmid">:</div><div class="col2"> {{$r->pangkat}} / {{$r->golongan}}</div></div>
+             <div class="rowcol"><div class="col1" style="vertical-align:top" >Jabatan</div><div class="colmid">:</div><div class="col2">{{$r->jabatan}} {{$r->nama_bidang}}</div></div>
+             <div class="rowcol"><div class="col1" >Unit Kerja</div><div class="colmid">:</div><div class="col2">{{$r->opd}}</div></div>
           
             </li>
         @endforeach
