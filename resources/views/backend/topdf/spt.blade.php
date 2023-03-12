@@ -2,26 +2,57 @@
 @section('content')
 
 <style>
-    body {
-        font-face: arial;
-    }
-
+ 
     .v-top {
-        vertical-align: top;
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
+        vertical-align:top;
     }
 
     .inline {
-        display: inline-table
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
+        display:inline-table
     }
 
     .col1 {
-        display: inline-block;
-        width: 25%
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
+        display:inline-block;
+        width:28%;
+        vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;
     }
 
     .col2 {
-        display: inline-block;
-        width: 68%
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
+        display:inline-block;
+        width:63%;
+        vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;
+    }
+    .colmid {
+        display:inline-block;
+        width:2%;
+        vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;
+
     }
 
     .rowcol {
@@ -33,6 +64,19 @@
         margin: 0;
         padding: 0
     }
+    p {margin:0;padding:0;
+        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;}
+                                                                    li{
+                                                                        font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;
+                                                                    }
 </style>
 <img src="{{$kop->file->url_stream.'?t='.time() ?? '#'}}" style="width:100%" alt="">
 <br>
