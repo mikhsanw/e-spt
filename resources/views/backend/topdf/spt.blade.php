@@ -86,9 +86,11 @@
     <span>NOMOR : </span>
 </center>
 
-<table style="width:100%;margin-top:30px">
+<table style="width:100%;margin-top:30px;font-family: Arial">
     <tr>
-        <td style="width:20%;">Dasar <span style="float:right">:</span></td>
+        <td style="width:20%;font-family: 'Arial', sans-serif;font-family: 'Arial Black', sans-serif;font-family: 'Arial Light', sans-serif;font-family: 'Arial CE', sans-serif;font-family: 'Arial CE MT Black', sans-serif;vertical-align: super;
+    vertical-align: text-top;
+    vertical-align: top;">Dasar <span style="float:right">:</span></td>
         <td style="width:80%">
             <ol style="padding:0 20px;margin:0;">
                 @foreach($data->perihal_notadinas as $dasar)
@@ -108,26 +110,11 @@
             <ol style="padding:3px 0 0 20px;margin:0;display:block">
                 @foreach($pegawai as $r)
                 <li style="padding-bottom:10px">
-                    <div class="rowcol">
-                        <div class="col1">Nama</div>
-                        <div class="col2">: {{$r->nama_pegawai}}</div>
-                    </div>
-                    <div class="rowcol">
-                        <div class="col1">NIP</div>
-                        <div class="col2">: {{$r->nip}}</div>
-                    </div>
-                    <div class="rowcol">
-                        <div class="col1">Pangkat / Golongan</div>
-                        <div class="col2">: {{$r->pangkat}} / {{$r->golongan}}</div>
-                    </div>
-                    <div class="rowcol">
-                        <div class="col1" style="vertical-align:top">Jabatan</div>
-                        <div class="col2">:{{$r->jabatan}} {{$r->nama_bidang}}</div>
-                    </div>
-                    <div class="rowcol">
-                        <div class="col1">Unit Kerja</div>
-                        <div class="col2">: {{$r->opd}}</div>
-                    </div>
+                    <div class="rowcol"><div class="col1" >Nama</div><div class="colmid">:</div><div class="col2"> {{$r->nama_pegawai}}</div></div>
+                    <div class="rowcol"><div class="col1" >NIP</div><div class="colmid">:</div><div class="col2">{{$r->nip}}</div></div>
+                    <div class="rowcol"><div class="col1" >Pangkat / Golongan</div><div class="colmid">:</div><div class="col2"> {{$r->pangkat}} / {{$r->golongan}}</div></div>
+                    <div class="rowcol"><div class="col1" style="vertical-align:top" >Jabatan</div><div class="colmid">:</div><div class="col2">{{$r->jabatan}} {{$r->nama_bidang}}</div></div>
+                    <div class="rowcol"><div class="col1" >Unit Kerja</div><div class="colmid">:</div><div class="col2">{{$r->opd}}</div></div>
 
                 </li>
                 @endforeach
