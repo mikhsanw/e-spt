@@ -102,28 +102,43 @@ class sptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-function viewspt($id){
+    function viewspt($id){
         $data = $this->model::find($id);
         $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
-        ->join('jabatans','jabatans.id','spt_pegawais.jabatan_id')->join('bidangs','bidangs.id','spt_pegawais.bidang_id')->join('opds','opds.id','bidangs.opd_id')->whereSptId($id)->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')->get();
+            ->join('jabatans','jabatans.id','spt_pegawais.jabatan_id')
+            ->join('bidangs','bidangs.id','spt_pegawais.bidang_id')
+            ->join('opds','opds.id','bidangs.opd_id')
+            ->whereSptId($id)
+            ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')
+            ->get();
         $ttd = $this->model::with('pegawai')->first();
-        $kop  = \App\Model\Opd::whereId('98a096a0-8810-4e45-82e7-ebb3763fc53f')->first();;
+        $kop  = \App\Model\Opd::whereHas('bidang', function($query){
+            $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+        })->first();
         
         $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'));
         return $pdf->stream($data->id.'.pdf');
 
-}
-function viewsppd($id,$pegawai){
-    $data = $this->model::find($id);
-    $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
-    ->join('jabatans','jabatans.id','pegawais.jabatan_id')->join('bidangs','bidangs.id','pegawais.bidang_id')->join('opds','opds.id','bidangs.opd_id')->whereSptId($id)->where('pegawais.id',$pegawai)->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')->first();
-    $ttd = $this->model::with('pegawai')->first();
-    $kop  = \App\Model\Opd::whereId('EWRWEREWR')->first();;
-    
-    $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'));
-    return $pdf->stream($data->id.'.pdf');
+    }
 
-}
+    function viewsppd($id,$pegawai){
+        $data = $this->model::find($id);
+        $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+        ->join('jabatans','jabatans.id','pegawais.jabatan_id')
+        ->join('bidangs','bidangs.id','pegawais.bidang_id')
+        ->join('opds','opds.id','bidangs.opd_id')
+        ->whereSptId($id)->where('pegawais.id',$pegawai)
+        ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
+        ->first();
+        $ttd = $this->model::with('pegawai')->first();
+        $kop  = \App\Model\Opd::whereHas('bidang', function($query){
+            $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+        })->first();
+        
+        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'));
+        return $pdf->stream($data->id.'.pdf');
+
+    }
     public function edit($id)
     {   $data = $this->model::find($id);
         if($data->status_spt=='0'){
@@ -132,7 +147,12 @@ function viewsppd($id,$pegawai){
         $data=[
             'data'    => $data,
             'pegawai' => \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
-            ->join('jabatans','jabatans.id','pegawais.jabatan_id')->join('bidangs','bidangs.id','pegawais.bidang_id')->join('opds','opds.id','bidangs.opd_id')->whereSptId($id)->select('bidangs.nama as nama_bidang','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')->get(),
+                        ->join('jabatans','jabatans.id','pegawais.jabatan_id')
+                        ->join('bidangs','bidangs.id','pegawais.bidang_id')
+                        ->join('opds','opds.id','bidangs.opd_id')
+                        ->whereSptId($id)
+                        ->select('bidangs.nama as nama_bidang','pegawais.id as id_pegawai','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
+                        ->get(),
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }

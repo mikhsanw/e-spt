@@ -6,6 +6,7 @@ use App\Helpers\Help;
 use App\Model\Bidang;
 use App\Model\Pegawai;
 use App\Model\Kegiatan;
+use PDF;
 use App\model\SptPegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -26,14 +27,19 @@ class sptKeluarController extends Controller
         if ($request->ajax()) {
             $data= $this->model::with('bidang')->whereBidangId(Auth::user()->bidang_id);
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', '<div style="text-align: center;">
-                <a class="lihat" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="{{ $id }}" href="#lihat-{{ $id }}">
-                    <i class="fas fa-eye text-info"></i>
-                </a>&nbsp; &nbsp;
-                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-edit text-warning"></i>
-                </a>&nbsp; &nbsp;
-            </div>')
+                ->addColumn('action', function($q){
+                $button = '<div style="text-align: left;">
+                    <a class="lihat waves-effect waves-light btn btn-primary btn-flat btn-xs" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="'.$q->id.'" href="#lihat-'.$q->id.'">
+                            <i class="fas fa-eye"></i>
+                        </a>&nbsp; &nbsp;'.
+                    (($q->status_spt==3)?
+                    '<a class="edit ubah waves-effect waves-light btn btn-warning btn-flat btn-xs" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="'.$q->id.'" href="#edit-'.$q->id.'">
+                            <i class="fa fa-edit"></i>
+                        </a>&nbsp; &nbsp;':'')
+                        
+                .'</div>';
+                return $button;
+        })
            ->addColumn('tanggal_perjalanan',function($row){
                 return Help::durasitanggal($row->tanggal_berangkat,$row->tanggal_kembali);
             })
@@ -48,6 +54,59 @@ class sptKeluarController extends Controller
         else {
             exit("Not an AJAX request -_-");
         }
+    }
+
+    function viewspt($id){
+        $data = $this->model::find($id);
+        $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+            ->join('jabatans','jabatans.id','spt_pegawais.jabatan_id')
+            ->join('bidangs','bidangs.id','spt_pegawais.bidang_id')
+            ->join('opds','opds.id','bidangs.opd_id')
+            ->whereSptId($id)
+            ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')
+            ->get();
+        $ttd = $this->model::with('pegawai')->first();
+        $kop  = \App\Model\Opd::whereHas('bidang', function($query){
+            $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+        })->first();
+        
+        $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'));
+        return $pdf->stream($data->id.'.pdf');
+
+    }
+
+    function viewsppd($id,$pegawai){
+        $data = $this->model::find($id);
+        $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+        ->join('jabatans','jabatans.id','pegawais.jabatan_id')
+        ->join('bidangs','bidangs.id','pegawais.bidang_id')
+        ->join('opds','opds.id','bidangs.opd_id')
+        ->whereSptId($id)->where('pegawais.id',$pegawai)
+        ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
+        ->first();
+        $ttd = $this->model::with('pegawai')->first();
+        $kop  = \App\Model\Opd::whereHas('bidang', function($query){
+            $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+        })->first();
+        
+        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'));
+        return $pdf->stream($data->id.'.pdf');
+
+    }
+
+    public function lihat($id)
+    {   $data = $this->model::find($id);
+        $data=[
+            'data'    => $data,
+            'pegawai' => \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+                        ->join('jabatans','jabatans.id','pegawais.jabatan_id')
+                        ->join('bidangs','bidangs.id','pegawais.bidang_id')
+                        ->join('opds','opds.id','bidangs.opd_id')
+                        ->whereSptId($id)
+                        ->select('bidangs.nama as nama_bidang','pegawais.id as id_pegawai','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
+                        ->get(),
+        ];
+        return view('backend.'.$this->kode.'.lihat', $data);
     }
 
     public function getrekening($id)
@@ -166,9 +225,17 @@ class sptKeluarController extends Controller
      */
     public function edit($id)
     {
+        foreach(SptPegawai::whereSptId($id)->pluck('pegawai_id') as $val){
+            $item[]=$val;
+        };
         $data=[
-            'bidang'     => Bidang::pluck('nama','id'),
-            'data'    => $this->model::find($id)
+            'kegiatan'   => Kegiatan::whereBidangId(Auth::user()->bidang_id)->pluck('nama','id'),
+            'penandatangan'    => Pegawai::whereHas('jabatan', function($query){
+                                    $query->where('jabatans.penandatangan',1);  
+                                })->get(),
+            'pegawai'    => Pegawai::all(),
+            'data'  => $this->model::find($id),
+            'datapegawai' => $item
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }

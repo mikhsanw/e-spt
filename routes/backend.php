@@ -119,6 +119,9 @@ Route::group(['prefix' => config('master.url.admin')], function () {
             Route::get('/data', 'sptKeluarController@data');
             Route::get('/hapus/{id}', 'sptKeluarController@hapus');
             Route::get('/getrekening/{id}', 'sptKeluarController@getrekening');
+            Route::get('/lihat/{id}', 'sptKeluarController@lihat');
+            Route::get('/viewspt/{id?}', 'sptKeluarController@viewspt');
+            Route::get('/viewsppd/{id?}/{pegawai?}', 'sptKeluarController@viewsppd');
         });
         Route::resource('sptkeluar', 'sptKeluarController');
         

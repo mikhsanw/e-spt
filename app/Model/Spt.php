@@ -57,4 +57,8 @@ class Spt extends Model
         return $this->morphOne(File::class, 'morph')->where('name', '=', 'sppd');
     }
     
+    public function file()
+    {
+        return $this->MorphMany(File::class, 'morph');
+    }
 }

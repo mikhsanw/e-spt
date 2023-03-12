@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#datatable').DataTable({
 		responsive: true,
 		serverside: true,
-		lengthChange: false,
+		lengthChange: true,
 		language: {
             url: "{{ asset('resources/vendor/datatables/js/indonesian.json') }}"
         },

@@ -3,13 +3,13 @@
     <div class="col-md-12">
         <div class="box">
             <div class="box-header">
-                <h4 class="box-title">Nota Dinas</h4>  
-                <small class="text-danger"> (kosongkan jika tanpa nota dinas)</small>
+                <h4 class="box-title">Dokumen Pendukung</h4>  
+                <small class="text-danger"> (Nota Dinas, Dll)</small>
             </div>
             <div class="box-body">
                 <div class="b-1 p-4">
                     <div class="form-group row">
-                        <label class="col-form-label col-md-3">Upload Nota Dinas</label>
+                        <label class="col-form-label col-md-3">Upload File</label>
                         <div class="col-md-9">
                             <div class="custom-file">
                                 {!! Form::file('file_notadinas[]', array('id' => 'file_notadinas', 'class' => 'form-control')) !!}
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-md-3">Nota Dinas sebagai Dasar</label>
+                        <label class="col-form-label col-md-3">Dasar</label>
                         <div class="col-md-9">
                             {!! Form::textarea('perihal_notadinas[]', null, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
                         </div>
@@ -132,10 +132,17 @@
 
     $('.modal-title').html('<span class="fa fa-edit"></span> Tambah {{$halaman->nama}}');
     
+    //date
+    const d = new Date();
+    var date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+
     $('#tanggal').daterangepicker({
     locale: {
       format: 'DD/MM/YYYY'
-    }
+    },
+    timePicker:false,
+    singleDatePicker: false,
+    minDate:date
     });
 
     function myChangeFunction(select){
@@ -155,7 +162,7 @@
         $('.dasar').append (`
         <div class="add_`+new_no+` b-1 p-4">
             <div class="form-group row">
-                <label class="col-form-label col-md-3">Upload Nota Dinas</label>
+                <label class="col-form-label col-md-3">Upload File</label>
                 <div class="col-md-9">
                     <div class="custom-file">
                         {!! Form::file('file_notadinas[]', array('id' => 'file_notadinas', 'class' => 'form-control')) !!}
@@ -163,7 +170,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-form-label col-md-3">Nota Dinas sebagai Dasar</label>
+                <label class="col-form-label col-md-3">Dasar</label>
                 <div class="col-md-9">
                     {!! Form::textarea('perihal_notadinas[]', null, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
                 </div>
