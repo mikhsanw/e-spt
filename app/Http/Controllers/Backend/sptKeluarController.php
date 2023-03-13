@@ -29,11 +29,11 @@ class sptKeluarController extends Controller
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function($q){
                 $button = '<div style="text-align: left;">
-                    <a class="lihat waves-effect waves-light btn btn-primary btn-flat btn-xs" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="'.$q->id.'" href="#lihat-'.$q->id.'">
-                            <i class="fas fa-eye"></i>
+                    <a class="lihat btn btn-social-icon btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="'.$q->id.'" href="#lihat-'.$q->id.'">
+                            <i class="fa fa-eye"></i>
                         </a>&nbsp; &nbsp;'.
                     (($q->status_spt==3)?
-                    '<a class="edit ubah waves-effect waves-light btn btn-warning btn-flat btn-xs" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="'.$q->id.'" href="#edit-'.$q->id.'">
+                    '<a class="edit ubah btn btn-social-icon btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="'.$q->id.'" href="#edit-'.$q->id.'">
                             <i class="fa fa-edit"></i>
                         </a>&nbsp; &nbsp;':'')
                         
@@ -140,6 +140,7 @@ class sptKeluarController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
                 'file_notadinas'              => 'required|array|min:1',
@@ -250,20 +251,69 @@ class sptKeluarController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->ajax()) {
+
             $validator=Validator::make($request->all(), [
-                'nip'              => 'required|'.config('master.regex.json'),
-                'nama'             => 'required|'.config('master.regex.json'),
-                'golongan'             => 'required|'.config('master.regex.json'),
-                'pangkat'             => 'required|'.config('master.regex.json'),
-            ]);
+                'maksud_perjalanan'              => 'required|'.config('master.regex.text'),
+                'tanggal'              => 'required|'.config('master.regex.json'),
+                'pegawai_id'              => 'required|array|min:1',
+                'angkutan'              => 'required|array|min:1',
+                'tempat_berangkat'              => 'required|'.config('master.regex.text'),
+                'tempat_tujuan'              => 'required|'.config('master.regex.text'),
+                'kegiatan_id'              => 'required|'.config('master.regex.uuid'),
+                'penandatangan_id'              => 'required|'.config('master.regex.uuid'),
+                ]);
             if ($validator->fails()) {
-                $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
+                $respon=['status'=>false, 'pesan'=>$validator->messages()];
             }
             else {
-                $this->model::find($id)->update($request->all());
-                $respon=['status'=>true, 'pesan'=>'Data berhasil diubah'];
+                $tgl_explode = explode(' - ',$request->tanggal);
+                $spt = $this->model::find($id);
+                    $spt->update([
+                        'perihal_notadinas' => $request->perihal_notadinas,
+                        'maksud_perjalanan' => $request->maksud_perjalanan,
+                        'angkutan' => $request->angkutan,
+                        'tempat_berangkat' => $request->tempat_berangkat,
+                        'tempat_tujuan' => $request->tempat_tujuan,
+                        'tanggal_berangkat' => date('Y-m-d', strtotime(str_replace('/', '-', $tgl_explode[0]))),
+                        'tanggal_kembali' => date('Y-m-d', strtotime(str_replace('/', '-', $tgl_explode[1]))),
+                        'kegiatan_id' => $request->kegiatan_id,
+                        'pegawai_id' => $request->penandatangan_id,
+                        'bidang_id' => Auth::user()->bidang_id,
+                        'status_spt' => '0',
+                    ]);
+                
+                if($spt){
+
+                    SptPegawai::whereSptId($spt->id)->forceDelete();
+                    foreach($request->pegawai_id as $val)
+                    {
+                        $pgw = Pegawai::find($val);
+                        SptPegawai::create([
+                            'pegawai_id'=>$val,
+                            'spt_id'=>$spt->id,
+                            'status_dibaca' => '0',
+                            'bidang_id'    => $pgw->bidang_id,
+                            'jabatan_id'    => $pgw->jabatan_id
+                            ]);
+                    }
+                    
+                    if($request->hapusnodin=='ya'){
+                        $spt->file_notadinas()->delete();
+                    }
+                    if ($request->hasFile('file_notadinas')) {
+                        foreach($request->file_notadinas as $key => $file){
+                            $spt->file_notadinas()->Create([
+                                'name'                  => 'notadinas',
+                                'data'                      =>  [
+                                    'disk'      => config('filesystems.default'),
+                                    'target'    => Storage::putFile($this->kode.'/notadinas/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('file_notadinas')[$key]),
+                                ]
+                            ]);
+                        }
+                    }
+                }
             }
-            return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];
+            return $respon ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];
         }
         else {
             exit('Ops, an Ajax request');
