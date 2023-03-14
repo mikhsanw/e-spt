@@ -24,31 +24,7 @@
 </tr>
 
     </table>
-    <p>
-  @if(in_array($data->status_spt,[0,1]))
-            <label for="">Beri Tindakan :</label><br>
 
-            <select name="status_spt" class="form-control" id="status_spt" required>
-                <option value="">--pilih tindakan--</option>
-                <option value="2" {{$data->status_spt ==2 ? 'selected' : ''}}>Terima Pengajuan</option>
-                <option value="3" {{$data->status_spt ==3 ? 'selected' : ''}}>Revisi Pengajuan</option>
-                <option value="4" {{$data->status_spt ==4 ? 'selected' : ''}}>Tolak Pengajuan</option>
-            </select>
-@else
-<label for="">Status Pengajuan :</label><br>
-@if($data->status_spt ==2)
-<h4 class="text-success"> <i class="fa fa-check"></i> Diterima </h4>
-@elseif($data->status_spt ==3)
-<h4 class="text-warning"> <i class="fa fa-spinner"></i> Menunggu Revisi </h4>
-
-@else 
-<h4 class="text-danger"> <i class="fa fa-close"></i> Ditolak </h4>
-
-@endif
-@endif
-
-
-        </p>
        
         <!-- <object data="{{url('sptmasuk/viewspt/'.$data->id)}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
             <p>
@@ -111,6 +87,34 @@
     </table>
   </div>
 </div>
+        </p>
+        <p>
+  @if(in_array($data->status_spt,[0,1]))
+            <label for="">Beri Tindakan :</label><br>
+
+            <select name="status_spt" class="form-control" id="status_spt" required>
+                <option value="">--pilih tindakan--</option>
+                <option value="2" {{$data->status_spt ==2 ? 'selected' : ''}}>Terima Pengajuan</option>
+                <option value="3" {{$data->status_spt ==3 ? 'selected' : ''}}>Revisi Pengajuan</option>
+                <option value="4" {{$data->status_spt ==4 ? 'selected' : ''}}>Tolak Pengajuan</option>
+            </select>
+            <br>
+            <label for="">Catatan Pimpinan <small class="text-warning">Beri tanda ( - ) jika kosong</small></label>
+            <textarea required id="catatan_pimpinan" class="form-control" name="catatan_pimpinan" placeholder="Beri catatan [opsional]"></textarea>
+@else
+<label for="">Status Pengajuan :</label><br>
+@if($data->status_spt ==2)
+<h4 class="text-success"> <i class="fa fa-check"></i> Diterima </h4>
+@elseif($data->status_spt ==3)
+<h4 class="text-warning"> <i class="fa fa-spinner"></i> Menunggu Revisi </h4>
+
+@else 
+<h4 class="text-danger"> <i class="fa fa-close"></i> Ditolak </h4>
+
+@endif
+@endif
+
+
         </p>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>

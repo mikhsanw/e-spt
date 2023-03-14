@@ -169,6 +169,7 @@ class sptController extends Controller
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
                 'status_spt'              => 'required',
+                'catatan_pimpinan'              => 'required',
             ]);
             if ($validator->fails()) {
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
@@ -184,6 +185,9 @@ class sptController extends Controller
         }
     }
 
+    function setnomor($idspt){
+
+    }
     /**
      * Remove the specified resource from storage.
      *
