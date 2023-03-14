@@ -101,7 +101,11 @@
     </tr>
     <br>
     <tr>
-        <td colspan="2" align="center">MEMERINTAHKAN</td>
+        <td colspan="2" align="center" style="   font-family: 'Arial', sans-serif;
+                                                                    font-family: 'Arial Black', sans-serif;
+                                                                    font-family: 'Arial Light', sans-serif;
+                                                                    font-family: 'Arial CE', sans-serif;
+                                                                    font-family: 'Arial CE MT Black', sans-serif;">MEMERINTAHKAN</td>
     </tr>
     <br>
     <tr>

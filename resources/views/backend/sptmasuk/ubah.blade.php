@@ -80,10 +80,7 @@
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
     <div class="sppdview" style="display:none">
     <button class="btn btn-danger btn-xs float-end pull-right my-3" onclick="$('.listsppd').show();$('.sppdview').hide()" type="button"> <i class="fas fa-close"></i> Tutup</button>
-  <object data="{{url('sptmasuk/viewsppd/'.$data->id)}}" type="application/pdf" style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px;">
-                File PDF tidak dapat ditampilkan, silahkan download file
-              
-        </object>
+    <div class="sppd"></div>
 </div> 
 
     <table class="table table-hover listsppd">
@@ -105,7 +102,9 @@
                 <td>{{$p->nama_pegawai}}</td>
                 <td>{{$p->nama_bidang}}</td>
                 <td>{{$p->jabatan}}</td>
-                <td><button onclick="$('.listsppd').hide();$('.sppdview').show();" class="btn btn-info btn-sm" type="button"> <i class="fa fa-eye" aria-hidden="true"></i> lihat</button></td>
+                <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd(`{{$p->id_pegawai}}`)"
+                                            class="btn btn-info btn-sm" type="button"> <i class="fa fa-eye"
+                                                aria-hidden="true"></i> lihat</button></td>
             </tr>
             @endforeach
         </tbody>
@@ -127,7 +126,7 @@
 <script src="{{ URL::asset('resources/vendor/jquery/jquery.form.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/js/ajax_progress.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.\Auth::id().'/ajax.js') }}"></script>
-<script src="{{ asset('backend/fromplugin/summernote/summernote.js') }}" async=""></script>
+
 <script type="text/javascript">
     $('.kirim-modal').html('Submit');
     $('.kirim-modal').attr('class','btn btn-sm kirim-modal float-right submit-ubah btn-primary');
@@ -137,4 +136,18 @@
         height: 200,
         dialogsInBody: true
     });
+</script>
+
+<script type="text/javascript">
+    $('.modal-title').html('<span class="fa fa-edit"></span> Lihat {{$halaman->nama}}');
+    function lihatsppd(val){
+        console.log(val)
+        
+        $('.sppd').html(`
+                <object data="{{url('sptmasuk/viewsppd/'.$data->id)}}/`+val+`" type="application/pdf"
+                                style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px;">
+                                File PDF tidak dapat ditampilkan, silahkan download file
+                </object>
+           `);
+    }
 </script>

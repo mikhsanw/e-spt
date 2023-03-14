@@ -123,7 +123,7 @@
     function lihatsppd(val){
         console.log(val)
         
-        $('.sppd').append (`
+        $('.sppd').html(`
                 <object data="{{url('sptkeluar/viewsppd/'.$data->id)}}/`+val+`" type="application/pdf"
                                 style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px;">
                                 File PDF tidak dapat ditampilkan, silahkan download file
