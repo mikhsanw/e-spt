@@ -49,7 +49,7 @@ class Spt extends Model
 
     public function file_notadinas()
     {
-        return $this->morphOne(File::class, 'morph')->where('name', '=', 'notadinas');
+        return $this->MorphMany(File::class, 'morph')->where('name', '=', 'notadinas');
     }
 
     public function file_sppd()

@@ -7,11 +7,17 @@
                 <small class="text-danger"> (Nota Dinas, Dll)</small>
             </div>
             <div class="box-body">
-                <div class="b-1 p-4">
-                    @foreach($data->perihal_notadinas as $val)
+                <div class="add_0 b-1 p-4">
+                    @foreach($data->perihal_notadinas as $key => $val)
                     <div class="form-group row">
-                        <label class="col-form-label col-md-3">Dasar</label>
+                        <label class="col-form-label col-md-3">Dasar {{$key+1}}</label>
                         <div class="col-md-9">
+                        <object data="{{asset($data->file_notadinas[$key]->url_stream)}}" type="application/pdf"
+                            style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+                            File PDF tidak dapat ditampilkan, silahkan download file
+
+                        </object>
+                            
                             {!! Form::textarea('perihal_notadinas[]', $val, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
                         </div>
                     </div>
@@ -19,8 +25,10 @@
                 </div>
                 <div class="dasar"></div>
                 <input type="hidden" value="0" id="total_add">
+                <input type="hidden" value="" name="hapusnodin" id="hapusnodin">
                 <div class="text-right p-3">
                     <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5" onclick="add()">Tambah</button>
+                    <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5 removeall" onclick="removeall()">Hapus Semua</button>
                 </div>
             </div>
         </div>
@@ -183,5 +191,11 @@
 
     function remove(val) {
         $('.add_' + val).remove();
+    }
+
+    function removeall(val) {
+        $('.add_0').remove();
+        $('.removeall').hide();
+        $('#hapusnodin').val('ya');
     }
 </script>

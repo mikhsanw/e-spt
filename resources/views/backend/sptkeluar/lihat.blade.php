@@ -40,7 +40,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        @foreach($data->file as $key => $file)
+                        @foreach($data->file_notadinas as $key => $file)
                         <object data="{{asset($file->url_stream)}}" type="application/pdf"
                             style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
                             File PDF tidak dapat ditampilkan, silahkan download file
@@ -81,7 +81,7 @@
                                     <td>{{$p->nama_pegawai}}</td>
                                     <td>{{$p->nama_bidang}}</td>
                                     <td>{{$p->jabatan}}</td>
-                                    <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd(`{{$p->id_pegawai}}`)"
+                                    <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd('{{$p->id_pegawai}}')"
                                             class="btn btn-info btn-sm" type="button"> <i class="fa fa-eye"
                                                 aria-hidden="true"></i> lihat</button></td>
                                 </tr>
