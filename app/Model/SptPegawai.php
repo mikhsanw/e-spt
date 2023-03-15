@@ -32,4 +32,9 @@ class SptPegawai extends Model
     {
         return $this->morphOne(File::class, 'morph')->where('name', '=', 'notadinas');
     }
+    
+    public function file_sppd()
+    {
+        return $this->morphOne(File::class, 'morph')->where('name', '=', 'sppd');
+    }
 }
