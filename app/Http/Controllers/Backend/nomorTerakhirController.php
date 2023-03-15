@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Model\Opd;
+use App\model\Bidang;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -41,7 +42,7 @@ class nomorTerakhirController extends Controller
     public function create()
     {
         $data=[
-            'opd'     => Opd::pluck('nama','id')
+            'bidang'     => Bidang::pluck('nama','id')
         ];
         return view('backend.'.$this->kode.'.tambah',$data);
     }
@@ -63,6 +64,7 @@ class nomorTerakhirController extends Controller
                 $respon=['status'=>false, 'pesan'=>$validator->messages()];
             }
             else {
+                $request->request->add(['opd_id'=>Auth::user()->bidang->opd_id]);
                 $this->model::create($request->all());
                 $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
             }
@@ -94,7 +96,7 @@ class nomorTerakhirController extends Controller
     {
         $data=[
             'data'    => $this->model::find($id),
-            'opd'     => Opd::pluck('nama','id')
+            'bidang'     => Bidang::pluck('nama','id')
 
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
@@ -119,7 +121,7 @@ class nomorTerakhirController extends Controller
             }
             else {
                 $this->model::find($id)->update($request->all());
-                $respon=['status'=>true, 'pesan'=>'Data berhasil diubah'];
+                $response=['status'=>true, 'pesan'=>'Data berhasil diubah'];
             }
             return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];
         }

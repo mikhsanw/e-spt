@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('jenis')->nullable();
             $table->string('nomor_terakhir')->nullable();
-            $table->string('opd_id')->nullable();
+            $table->foreignUuid('opd_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->timestamps();
             $table->softDeletes();
         });

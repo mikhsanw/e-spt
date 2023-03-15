@@ -3,15 +3,15 @@
     <div class="col-md-12">
         <p>
             {!! Form::label('jenis', 'Masukkan Jenis', array('class' => 'control-label')) !!}
-            {!! Form::select('jenis', config('master.jenis_spt'), null, array('id' => 'jenis', 'class' => 'form-control', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
+            {!! Form::select('jenis', config('master.jenis_spt'), null, array('id' => 'jenis', 'class' => 'form-control', 'placeholder'=>'Pilih','style' => 'width:100%','onchange'=>'myChange(this.value)')) !!}
         </p>
         <p>
             {!! Form::label('nomor_terakhir', 'Masukkan Nomor Terakhir', array('class' => 'control-label')) !!}
             {!! Form::text('nomor_terakhir', null, array('id' => 'nomor_terakhir', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
         </p>
-        <p>
-            {!! Form::label('opd_id', 'Pilih Opd', array('class' => 'control-label')) !!}
-            {!! Form::select('opd_id', $opd, null, array('id' => 'opd', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
+        <p class="bidanginput">
+            {!! Form::label('bidang_id', 'Pilih Bidang', array('class' => 'control-label')) !!}
+            {!! Form::select('bidang_id', $bidang, null, array('id' => 'bidang', 'class' => 'select2 form-control bidang', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
     </div>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
@@ -37,12 +37,16 @@
 <script src="{{ URL::asset('resources/vendor/jquery/jquery.form.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/js/ajax_progress.js') }}"></script>
 <script src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.\Auth::id().'/ajax.js') }}"></script>
-<script src="{{ asset('backend/fromplugin/summernote/summernote.js') }}" async=""></script>
 <script type="text/javascript">
     $('.modal-title').html('<span class="fa fa-edit"></span> Tambah {{$halaman->nama}}');
-    $('.js-summernote').summernote({
-        // toolbar: [['para', ['ul', 'ol']]],
-        height: 200,
-        dialogsInBody: true
-    });
+
+    $('.bidanginput').hide();
+    function myChange(value){
+        console.log(value)
+        if(value=="SPPD"){
+            $('.bidanginput').show();
+        }else{
+            $('.bidanginput').hide();
+        }
+    }
 </script>

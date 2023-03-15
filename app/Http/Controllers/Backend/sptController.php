@@ -4,9 +4,14 @@ namespace App\Http\Controllers\backend;
 
 use PDF;
 use Help;
+use App\model\Opd;
+use App\model\Bidang;
+use App\model\SptPegawai;
+use App\model\NomorTerakhir;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,7 +27,7 @@ class sptController extends Controller
         if ($request->ajax()){
             $data= $this->model::with('bidang')->whereHas('bidang', function($query){
                 $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
-            })->orderBy('updated_at','desc');
+            })->orderBy('created_at','desc');
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
@@ -102,7 +107,8 @@ class sptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    function viewspt($id){
+
+    function pdfspt($id){
         $customPaper = array(0,0,595.276,935.433);
         $data = $this->model::find($id);
         $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
@@ -117,12 +123,10 @@ class sptController extends Controller
             $query->where('spts.id', $id);  
         })->first();
         
-        $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
-        return $pdf->stream($data->id.'.pdf');
-
+        return PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
     }
 
-    function viewsppd($id,$pegawai){
+    function pdfsppd($id,$pegawai){
         $customPaper = array(0,0,595.276,935.433);
         $data = $this->model::find($id);
         $pegawai = \App\Model\SptPegawai::join('spts','spts.id','spt_pegawais.spt_id')->join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
@@ -136,9 +140,20 @@ class sptController extends Controller
         $kop  = \App\Model\Opd::whereHas('bidang', function($query){
             $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
         })->first();
-        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
-        return $pdf->stream($data->id.'.pdf');
+        return PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
     }
+
+    function viewspt($id){
+        $pdf = $this->pdfspt($id);
+        return $pdf->stream($id.'.pdf');
+
+    }
+
+    function viewsppd($id,$pegawai){
+        $pdf = $this->pdfsppd($id,$pegawai);
+        return $pdf->stream($id.'.pdf');
+    }
+
     public function edit($id)
     {   $data = $this->model::find($id);
         if($data->status_spt=='0'){
@@ -175,7 +190,62 @@ class sptController extends Controller
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
             }
             else {
-                $this->model::find($id)->update($request->all());
+
+                if($request->status_spt=='2'){
+                    $kodeOpd = Opd::whereId(Auth::user()->bidang->opd_id)->first();
+                    $bidang = Bidang::whereId(Auth::user()->bidang_id)->first();
+                    $nomorSPT = NomorTerakhir::whereOpdId(Auth::user()->bidang->opd_id)->whereJenis('SPT')->first();
+                    $no_spt=$kodeOpd->kode.'/SPT/'.date("Y").'/'.sprintf("%02d", ((int)$nomorSPT->nomor_terakhir+1));
+
+                    //save no_spt
+                    $request->request->add(['no_spt'=>$no_spt]);
+                    $this->model::find($id)->update($request->all());
+
+                    //save nomor_terakhir
+                    NomorTerakhir::find($nomorSPT->id)->update(['nomor_terakhir'=>sprintf("%02d", ((int)$nomorSPT->nomor_terakhir+1))]);
+
+                    //save file spt
+                    $pdfspt = $this->pdfspt($id);
+                    $pathspt = $this->kode.'/spt/'.date('Y').'/'.date('m').'/'.date('d').'/'.$id.'.pdf';
+                    Storage::put($pathspt,$pdfspt->download()->getOriginalContent());
+                    $spt=$this->model::find($id);
+                    $spt->file_spt()->Create([
+                        'name'                  => 'spt',
+                        'data'                      =>  [
+                            'disk'      => config('filesystems.default'),
+                            'target'    => $pathspt,
+                        ]
+                    ]);
+
+                    $sptpeg = SptPegawai::whereSptId($id)->get();
+                    foreach($sptpeg as $sptpegawai){
+                        $nomorSPPD = NomorTerakhir::whereOpdId(Auth::user()->bidang->opd_id)->whereBidangId($bidang->id)->whereJenis('SPPD')->first();
+                        $no_sppd=$kodeOpd->kode.'/SPPD-'.$bidang->singkatan.'/'.date("Y").'/'.sprintf("%02d", ($nomorSPPD->nomor_terakhir+1));
+                        
+                        //save no_sppd
+                        SptPegawai::find($sptpegawai->id)->update(['no_sppd'=>$no_sppd]);
+
+                        //save nomor_terakhir
+                        NomorTerakhir::find($nomorSPPD->id)->update(['nomor_terakhir'=>sprintf("%02d", ($nomorSPPD->nomor_terakhir+1))]);
+                        
+                        //save file sppd
+                        $pdfsppd = $this->pdfsppd($id,$sptpegawai->pegawai_id);
+                        $pathsppd = $this->kode.'/sppd/'.date('Y').'/'.date('m').'/'.date('d').'/'.$sptpegawai->id.'.pdf';
+                        Storage::put($pathsppd,$pdfsppd->download()->getOriginalContent());
+                        $sppd=SptPegawai::find($sptpegawai->id);
+                        $sppd->file_sppd()->Create([
+                            'name'                  => 'sppd',
+                            'data'                      =>  [
+                                'disk'      => config('filesystems.default'),
+                                'target'    => $pathsppd,
+                            ]
+                        ]);
+                    }
+
+                }else{
+                    $spt=$this->model::find($id)->update($request->all());
+                }
+
                 $response=['status'=>true, 'pesan'=>'Data berhasil diubah'];
             }
             return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];

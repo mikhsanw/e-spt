@@ -15,7 +15,7 @@ class Spt extends Model
         'id'=>'string','angkutan'=>'array','perihal_notadinas'=>'array'
     ];
     protected $fillable=[
-        'id','no_spt', 'maksud_perjalanan', 'tempat_berangkat', 'tempat_tujuan','angkutan','tanggal_berangkat','tanggal_kembali','tanggal_penetapan','status_spt','perihal_notadinas','pegawai_id','bidang_id','kegiatan_id'
+        'id','no_spt', 'maksud_perjalanan', 'tempat_berangkat', 'tempat_tujuan','angkutan','tanggal_berangkat','tanggal_kembali','tanggal_penetapan','status_spt','perihal_notadinas','pegawai_id','catatan_pimpinan','bidang_id','kegiatan_id'
     ];
 
     public function laporan()

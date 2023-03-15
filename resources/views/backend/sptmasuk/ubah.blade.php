@@ -132,14 +132,9 @@
 <script src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.\Auth::id().'/ajax.js') }}"></script>
 
 <script type="text/javascript">
-    $('.kirim-modal').html('Submit');
+    $('.kirim-modal').html('Simpan');
     $('.kirim-modal').attr('class','btn btn-sm kirim-modal float-right submit-ubah btn-primary');
     $('.modal-title').html('<span class="fa fa-edit"></span> Lihat  {{$halaman->nama}}');
-    $('.js-summernote').summernote({
-        // toolbar: [['para', ['ul', 'ol']]],
-        height: 200,
-        dialogsInBody: true
-    });
 </script>
 
 <script type="text/javascript">

@@ -7,28 +7,32 @@
                 <small class="text-danger"> (Nota Dinas, Dll)</small>
             </div>
             <div class="box-body">
+                @if(!empty($data->perihal_notadinas))
                 <div class="add_0 b-1 p-4">
-                    @foreach($data->perihal_notadinas as $key => $val)
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-3">Dasar {{$key+1}}</label>
-                        <div class="col-md-9">
-                        <object data="{{asset($data->file_notadinas[$key]->url_stream)}}" type="application/pdf"
-                            style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
-                            File PDF tidak dapat ditampilkan, silahkan download file
+                        @foreach($data->perihal_notadinas as $key => $val)
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3">Dasar {{$key+1}}</label>
+                            <div class="col-md-9">
+                            <object data="{{asset($data->file_notadinas[$key]->url_stream)}}" type="application/pdf"
+                                style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+                                File PDF tidak dapat ditampilkan, silahkan download file
 
-                        </object>
-                            
-                            {!! Form::textarea('perihal_notadinas[]', $val, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
+                            </object>
+                                
+                                {!! Form::textarea('perihal_notadinas[]', $val, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
+                            </div>
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
                 </div>
+                @endif
                 <div class="dasar"></div>
                 <input type="hidden" value="0" id="total_add">
                 <input type="hidden" value="" name="hapusnodin" id="hapusnodin">
                 <div class="text-right p-3">
                     <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5" onclick="add()">Tambah</button>
-                    <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5 removeall" onclick="removeall()">Hapus Semua</button>
+                    @if(!empty($data->perihal_notadinas))
+                        <button type="button" class="waves-effect waves-light btn btn-default btn-flat mb-5 removeall" onclick="removeall()">Hapus Semua</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -140,8 +144,8 @@
     $('.selectpicker').selectpicker();
 
     //date
-    const d = new Date();
-    var date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+    const dt = new Date();
+    var date = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
 
     $('#tanggal').daterangepicker({
     locale: {
@@ -194,7 +198,22 @@
     }
 
     function removeall(val) {
-        $('.add_0').remove();
+        $('.add_0').empty();
+        $('.add_0').append(`
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Upload File</label>
+                        <div class="col-md-9">
+                            <div class="custom-file">
+                                {!! Form::file('file_notadinas[]', array('id' => 'file_notadinas', 'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Dasar</label>
+                        <div class="col-md-9">
+                            {!! Form::textarea('perihal_notadinas[]', null, array('id' => 'perihal_notadinas', 'class' => 'form-control', 'style' => 'height:100px')) !!}
+                        </div>
+                    </div>`)
         $('.removeall').hide();
         $('#hapusnodin').val('ya');
     }

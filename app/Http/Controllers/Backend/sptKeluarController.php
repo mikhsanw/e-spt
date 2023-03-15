@@ -25,7 +25,7 @@ class sptKeluarController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= $this->model::with('bidang')->whereBidangId(Auth::user()->bidang_id);
+            $data= $this->model::with('bidang')->whereBidangId(Auth::user()->bidang_id)->orderBy('created_at','desc');;
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function($q){
                 $button = '<div style="text-align: left;">
