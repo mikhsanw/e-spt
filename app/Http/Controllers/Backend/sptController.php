@@ -111,12 +111,11 @@ class sptController extends Controller
     function pdfspt($id){
         $customPaper = array(0,0,595.276,935.433);
         $data = $this->model::find($id);
-        $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
-            ->join('jabatans','jabatans.id','spt_pegawais.jabatan_id')
-            ->join('bidangs','bidangs.id','spt_pegawais.bidang_id')
-            ->join('opds','opds.id','bidangs.opd_id')
-            ->whereSptId($id)
-            ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')
+        $pegawai =  \App\Model\SptPegawai::join('spts','spts.id','spt_pegawais.spt_id')->join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+        ->join('jabatans','jabatans.id','pegawais.jabatan_id')
+        ->join('bidangs','bidangs.id','pegawais.bidang_id')
+        ->join('opds','opds.id','bidangs.opd_id')
+        ->whereSptId($id)->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')
             ->get();
         $ttd = $this->model::with('pegawai')->first();
         $kop  = \App\Model\Opd::whereHas('bidang.spt', function($query) use ($id){
