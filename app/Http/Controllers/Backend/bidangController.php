@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Model\Opd;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,7 @@ class bidangController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= $this->model::query();
+            $data= $this->model::whereOpdId(Auth::user()->bidang->opd_id)->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">

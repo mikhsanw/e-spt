@@ -1,4 +1,4 @@
-{!! Form::open(array('id' => 'frmOji', 'route' => [$halaman->kode.'.update', $data->id], 'class' => 'form account-form', 'method' => 'PUT')) !!}
+{!! Form::open(array('id' => 'frmOji', 'route' => [$halaman->kode.'.update', $data->id], 'class' => 'form account-form', 'method' => 'PUT','files' => 'true')) !!}
 <div class="row">
     <div class="col-md-12">
     <table class="table">
@@ -92,7 +92,7 @@
   @if(in_array($data->status_spt,[0,1]))
             <label for="">Beri Tindakan :</label><br>
 
-            <select name="status_spt" class="form-control" id="status_spt" required>
+            <select name="status_spt" class="form-control select2" id="status_spt" style="width:100%" required>
                 <option value="">--pilih tindakan--</option>
                 <option value="2" {{$data->status_spt ==2 ? 'selected' : ''}}>Terima Pengajuan</option>
                 <option value="3" {{$data->status_spt ==3 ? 'selected' : ''}}>Revisi Pengajuan</option>
@@ -119,7 +119,17 @@
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
 </div>
-
+<div class="row">
+	<div class="col-md-12">
+        <span class="pesan"></span>
+        <div id="output"></div>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div id="statustxt">0%</div>
+            </div>
+        </div>
+	</div>
+</div>
 {!! Form::close() !!}
 <style>
     .select2-container {

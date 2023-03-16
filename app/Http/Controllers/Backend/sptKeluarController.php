@@ -47,9 +47,20 @@ class sptKeluarController extends Controller
                 return Help::time_ago($row->created_at);
             })
             ->addColumn('status_spt',function($row){
-                return config('master.status_spt.'.$row->status_spt);
+                if($row->status_spt=='0'){
+                    $class='badge badge-primary-light';
+                }elseif($row->status_spt=='1'){
+                    $class='badge badge-primary-light';
+                }elseif($row->status_spt=='2'){
+                    $class='badge badge-secondary-light';
+                }elseif($row->status_spt=='3'){
+                    $class='badge badge-warning-light';
+                }elseif($row->status_spt=='4'){
+                    $class='badge badge-danger-light';
+                }
+                return '<span class="'.$class.'" style="font-weight: bolder;">'.config('master.status_spt.'.$row->status_spt).'</span>';
             })
-            ->toJson();
+            ->rawColumns(['status_spt','tanggal_perjalanan', 'tanggal_pengajuan','action'])->toJson();
         }
         else {
             exit("Not an AJAX request -_-");

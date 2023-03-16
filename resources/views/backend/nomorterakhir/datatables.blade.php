@@ -12,6 +12,7 @@ $(document).ready(function() {
 		columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{ data: 'jenis' },
+				{ data: 'bidang' },
 				{ data: 'nomor_terakhir' },
 				{ data: 'action', orderable: false, searchable: false}
 		    ]

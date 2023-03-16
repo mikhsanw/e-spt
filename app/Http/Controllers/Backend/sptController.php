@@ -30,8 +30,8 @@ class sptController extends Controller
             })->orderBy('created_at','desc');
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
-               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-eye text-warning"></i>
+               <a class="edit ubah btn btn-social-icon btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
+                   <i class="fa fa-eye"></i>
                </a>&nbsp; &nbsp;
              
            </div>')
@@ -44,10 +44,20 @@ class sptController extends Controller
             return $row->no_spt ?? '-';
         })
         ->addColumn('status_spt',function($row){
-
-            return config('master.status_spt.'.$row->status_spt);
+            if($row->status_spt=='0'){
+                $class='badge badge-primary-light';
+            }elseif($row->status_spt=='1'){
+                $class='badge badge-primary-light';
+            }elseif($row->status_spt=='2'){
+                $class='badge badge-secondary-light';
+            }elseif($row->status_spt=='3'){
+                $class='badge badge-warning-light';
+            }elseif($row->status_spt=='4'){
+                $class='badge badge-danger-light';
+            }
+            return '<span class="'.$class.'" style="font-weight: bolder">'.config('master.status_spt.'.$row->status_spt).'</span>';
         })
-           ->toJson();
+        ->rawColumns(['status_spt','no_spt', 'tanggal_pengajuan','action'])->toJson();
         }
         else {
             exit("Not an AJAX request -_-");

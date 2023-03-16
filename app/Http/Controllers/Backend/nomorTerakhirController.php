@@ -6,6 +6,7 @@ use App\Model\Opd;
 use App\model\Bidang;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +20,7 @@ class nomorTerakhirController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= $this->model::query();
+            $data= $this->model::whereOpdId(Auth::user()->bidang->opd_id)->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
@@ -28,7 +29,10 @@ class nomorTerakhirController extends Controller
                <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
                    <i class="fa fa-trash text-danger"></i>
                </a>
-           </div>')->toJson();
+           </div>')
+           ->addColumn('bidang',function($row){
+                return Bidang::find($row->bidang_id)->nama??'';
+           })->toJson();
         }
         else {
             exit("Not an AJAX request -_-");
