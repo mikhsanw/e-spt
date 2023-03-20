@@ -68,39 +68,39 @@ class sptKeluarController extends Controller
     }
 
     function viewspt($id){
+        $customPaper = array(0,0,595.276,935.433);
         $data = $this->model::find($id);
-        $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
-            ->join('jabatans','jabatans.id','spt_pegawais.jabatan_id')
-            ->join('bidangs','bidangs.id','spt_pegawais.bidang_id')
-            ->join('opds','opds.id','bidangs.opd_id')
-            ->whereSptId($id)
-            ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')
+        $pegawai =  \App\Model\SptPegawai::join('spts','spts.id','spt_pegawais.spt_id')->join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+        ->join('jabatans','jabatans.id','pegawais.jabatan_id')
+        ->join('bidangs','bidangs.id','pegawais.bidang_id')
+        ->join('opds','opds.id','bidangs.opd_id')
+        ->whereSptId($id)->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd','bidangs.nama as nama_bidang')
             ->get();
         $ttd = $this->model::with('pegawai')->first();
-        $kop  = \App\Model\Opd::whereHas('bidang', function($query){
-            $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+        $kop  = \App\Model\Opd::whereHas('bidang.spt', function($query) use ($id){
+            $query->where('spts.id', $id);  
         })->first();
         
-        $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'));
+        $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
         return $pdf->stream($data->id.'.pdf');
 
     }
 
     function viewsppd($id,$pegawai){
+         $customPaper = array(0,0,595.276,935.433);
         $data = $this->model::find($id);
-        $pegawai = \App\Model\SptPegawai::join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
+        $pegawai = \App\Model\SptPegawai::join('spts','spts.id','spt_pegawais.spt_id')->join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
         ->join('jabatans','jabatans.id','pegawais.jabatan_id')
         ->join('bidangs','bidangs.id','pegawais.bidang_id')
         ->join('opds','opds.id','bidangs.opd_id')
         ->whereSptId($id)->where('pegawais.id',$pegawai)
-        ->select('pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
+        ->select('spt_pegawais.no_sppd','spts.angkutan','spts.tempat_berangkat','spts.tempat_tujuan','spts.tanggal_berangkat','spts.tanggal_kembali','bidangs.nama as nama_bidang','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','jabatans.tingkat','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
         ->first();
         $ttd = $this->model::with('pegawai')->first();
         $kop  = \App\Model\Opd::whereHas('bidang', function($query){
             $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
         })->first();
-        
-        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'));
+        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
         return $pdf->stream($data->id.'.pdf');
 
     }
@@ -116,6 +116,7 @@ class sptKeluarController extends Controller
                         ->whereSptId($id)
                         ->select('bidangs.nama as nama_bidang','pegawais.id as id_pegawai','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
                         ->get(),
+            'sptpegawai' => new SptPegawai
         ];
         return view('backend.'.$this->kode.'.lihat', $data);
     }
@@ -151,7 +152,6 @@ class sptKeluarController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
                 'file_notadinas'              => 'required|array|min:1',

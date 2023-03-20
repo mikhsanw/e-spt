@@ -83,7 +83,7 @@
 <br>
 <center>
     <span style="border-bottom:2px solid #000">SURAT PERINTAH TUGAS</span><br>
-    <span>NOMOR : </span>
+    <span>NOMOR : {{$data->no_spt??''}}</span>
 </center>
 
 <table style="width:100%;margin-top:30px;font-family: Arial">

@@ -48,11 +48,19 @@
                         @endforeach
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <object data="{{url('sptkeluar/viewspt/'.$data->id)}}" type="application/pdf"
-                            style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
-                            File PDF tidak dapat ditampilkan, silahkan download file
+                    @if($data->file_spt)
+                    <object data="{{url($data->file_spt->url_stream)}}" type="application/pdf"
+                        style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+                        File PDF tidak dapat ditampilkan, silahkan download file
 
-                        </object>
+                    </object>
+                    @else
+                    <object data="{{url('sptmasuk/viewspt/'.$data->id)}}" type="application/pdf"
+                        style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+                        File PDF tidak dapat ditampilkan, silahkan download file
+
+                    </object>
+                    @endif
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                         <div class="sppdview" style="display:none">
@@ -81,7 +89,7 @@
                                     <td>{{$p->nama_pegawai}}</td>
                                     <td>{{$p->nama_bidang}}</td>
                                     <td>{{$p->jabatan}}</td>
-                                    <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd('{{$p->id_pegawai}}')"
+                                    <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd(`{{$sptpegawai->getfilepegawai($data->id,$p->id_pegawai)->file_sppd?url($sptpegawai->getfilepegawai($data->id,$p->id_pegawai)->file_sppd->url_stream):'sptmasuk/viewsppd/'.$data->id.'/'.$p->id_pegawai}}`)"
                                             class="btn btn-info btn-sm" type="button"> <i class="fa fa-eye"
                                                 aria-hidden="true"></i> lihat</button></td>
                                 </tr>
@@ -124,7 +132,7 @@
         console.log(val)
         
         $('.sppd').html(`
-                <object data="{{url('sptkeluar/viewsppd/'.$data->id)}}/`+val+`" type="application/pdf"
+                <object data="`+val+`" type="application/pdf"
                                 style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px;">
                                 File PDF tidak dapat ditampilkan, silahkan download file
                 </object>

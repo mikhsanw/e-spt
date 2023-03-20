@@ -54,7 +54,7 @@
         </tr>
         <tr>
             <td>Nomor</td>
-            <td>:</td>
+            <td>: {{$pegawai->no_sppd??''}}</td>
         </tr>
     </table>
     <br>
@@ -165,11 +165,11 @@
         <tr>
             <td style="width:4%">I.</td>
             <td style="width:46%">SPPD No.</td>
-            <td style="width:50%">:</td>
+            <td style="width:50%">: {{$pegawai->no_sppd??''}}</td>
         </tr>
         <tr>
             <td></td>
-            <td>Berangkat dari (tempat keduduukan)</td>
+            <td>Berangkat dari (tempat kedudukan)</td>
             <td style="vertical-align:top">: {{$data->tempat_berangkat}}</td>
         </tr>
         <tr>

@@ -143,7 +143,7 @@ class sptController extends Controller
         ->join('bidangs','bidangs.id','pegawais.bidang_id')
         ->join('opds','opds.id','bidangs.opd_id')
         ->whereSptId($id)->where('pegawais.id',$pegawai)
-        ->select('spts.angkutan','spts.tempat_berangkat','spts.tempat_tujuan','spts.tanggal_berangkat','spts.tanggal_kembali','bidangs.nama as nama_bidang','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','jabatans.tingkat','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
+        ->select('spt_pegawais.no_sppd','spts.angkutan','spts.tempat_berangkat','spts.tempat_tujuan','spts.tanggal_berangkat','spts.tanggal_kembali','bidangs.nama as nama_bidang','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','jabatans.tingkat','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
         ->first();
         $ttd = $this->model::with('pegawai')->first();
         $kop  = \App\Model\Opd::whereHas('bidang', function($query){
@@ -177,6 +177,7 @@ class sptController extends Controller
                         ->whereSptId($id)
                         ->select('bidangs.nama as nama_bidang','pegawais.id as id_pegawai','pegawais.nama as nama_pegawai','jabatans.nama as jabatan','pegawais.pangkat','pegawais.golongan','pegawais.nip','opds.nama as opd')
                         ->get(),
+            'sptpegawai' => new SptPegawai
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }

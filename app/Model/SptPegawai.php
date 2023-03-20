@@ -27,14 +27,13 @@ class SptPegawai extends Model
     {
         return $this->belongsTo('App\Model\Pegawai');
     }
-
-    public function file_notadinas()
-    {
-        return $this->morphOne(File::class, 'morph')->where('name', '=', 'notadinas');
-    }
     
     public function file_sppd()
     {
         return $this->morphOne(File::class, 'morph')->where('name', '=', 'sppd');
+    }
+
+    public function getfilepegawai($spt,$pegawai){
+        return $this->where('spt_id',$spt)->where('pegawai_id',$pegawai)->first();;
     }
 }
