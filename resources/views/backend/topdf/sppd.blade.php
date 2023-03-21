@@ -85,7 +85,7 @@
                     <li>Tingkat perjalanan menurut peraturan Perjalanan</li>
                 </ol>
             </td>
-            <td style="vertical-align:top;">{{$pegawai->pangkat}}<br><br>{{$pegawai->jabatan}} {{$pegawai->nama_bidang}}<br><p style="margin-top:5px">{{$pegawai->tingkat}}</p></td>
+            <td style="vertical-align:top;">{{$pegawai->pangkat}}<br><br>{{$pegawai->jabatan}} {{$pegawai->nama_bidang != 'Kantor' ? ($pegawai->nama_bidang!='Sekretariat' ? 'Bidang '.$pegawai->nama_bidang: $pegawai->nama_bidang) : '' }}<br><p style="margin-top:5px">{{$pegawai->tingkat}}</p></td>
         </tr>
         <tr>
             <td class="no">4.</td>
@@ -148,7 +148,7 @@
     <table style="width:290px;" align="right">
         <tr>
             <td>Ditetapkan di Bengkalis<br>Pada tanggal {{Help::tglindo($data->tanggal_penetapan)}}
-                <p style="margin-top:7px">{{Str::upper($data->pegawai->jabatan->nama.' '.$kop->nama)}}</p>
+                <p style="margin-top:7px">{{$data->pegawai->jabatan->nama == 'Kepala Dinas'? 'KEPALA': Str::upper($data->pegawai->jabatan->nama)}} {{Str::upper($kop->nama)}}</p>
                 <br>
                 <br>
 
@@ -239,7 +239,7 @@
     <table style="width:290px;" align="right">
         <tr>
             <td>
-                <p style="margin-top:7px">{{Str::upper($data->pegawai->jabatan->nama.' '.$kop->nama)}}</p>
+                <p style="margin-top:7px">{{$data->pegawai->jabatan->nama == 'Kepala Dinas'? 'KEPALA': Str::upper($data->pegawai->jabatan->nama)}} {{Str::upper($kop->nama)}}</p>
                 <br>
                 <br>
 
