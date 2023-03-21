@@ -202,9 +202,10 @@ class sptController extends Controller
             else {
 
                 if($request->status_spt=='2'){
+                    $mspt = $this->model::find($id);
                     $kodeOpd = Opd::whereId(Auth::user()->bidang->opd_id)->first();
-                    $bidang = Bidang::whereId(Auth::user()->bidang_id)->first();
-                    $nomorSPT = NomorTerakhir::whereOpdId(Auth::user()->bidang->opd_id)->whereJenis('SPT')->first();
+                    $bidang = Bidang::whereId($mspt->bidang->id)->first();
+                    $nomorSPT = NomorTerakhir::whereOpdId($kodeOpd->id)->whereJenis('SPT')->first();
                     $no_spt=$kodeOpd->kode.'/SPT/'.date("Y").'/'.sprintf("%02d", ((int)$nomorSPT->nomor_terakhir+1));
 
                     //save no_spt

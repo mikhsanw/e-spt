@@ -125,7 +125,7 @@
         <tr>
             <td class="no">8.</td>
             <td class="tengah">Pengikut</td>
-            <td></td>
+            <td>-</td>
         </tr>
         <tr>
             <td class="no">9.</td>
@@ -192,7 +192,7 @@
             <td style="width:20%;">Tiba di<br>Pada tanggal<br>Kepala</td>
             <td style="width:30%;padding-top:20px">: {{$pegawai->tempat_tujuan}}<br>: {{Help::tglindo($data->tanggal_kembali)}}<br>:<br><br></td>
             <td style="width:20%;padding-top:20px">Berangkat Dari<br>Ke<br>Pada tanggal<br>Kepala</td>
-            <td style="width:28%;padding-top:0">: {{$pegawai->tempat_berangkat}} <br>: {{$pegawai->tempat_tujuan}} <br>:{{Help::tglindo($data->tanggal_berangkat)}}</td>
+            <td style="width:28%;padding-top:0">: {{$pegawai->tempat_berangkat}} <br>: {{$pegawai->tempat_tujuan}} <br>: {{Help::tglindo($data->tanggal_berangkat)}}</td>
         </tr>
         <tr>
             <td style="width:2%;vertical-align:top;padding-top:20px;padding-right:10px">III.</td>
