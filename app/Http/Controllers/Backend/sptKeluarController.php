@@ -28,7 +28,8 @@ class sptKeluarController extends Controller
             $data= $this->model::with('bidang')->whereBidangId(Auth::user()->bidang_id)->orderBy('created_at','desc');;
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function($q){
-                $button = '<div style="text-align: left;">
+                $button = 
+                '<div style="text-align: left;">
                     <a class="lihat btn btn-social-icon btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="'.$q->id.'" href="#lihat-'.$q->id.'">
                             <i class="fa fa-eye"></i>
                         </a>&nbsp; &nbsp;'.
@@ -36,8 +37,12 @@ class sptKeluarController extends Controller
                     '<a class="edit ubah btn btn-social-icon btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="'.$q->id.'" href="#edit-'.$q->id.'">
                             <i class="fa fa-edit"></i>
                         </a>&nbsp; &nbsp;':'').
-                    (($q->status_spt==2)?
-                    '<a class="arsip btn btn-social-icon btn-dark btn-xs" data-toggle="tooltip" data-placement="top" title="Arsip Berkas" '.$this->kode.'-id="'.$q->id.'" href="#arsip-'.$q->id.'">
+                    (($q->status_spt==2 && $q->arsip_spt)?
+                    '<a class="arsip btn btn-social-icon btn-dark btn-xs" data-toggle="tooltip" data-placement="top" title="Arsip" '.$this->kode.'-id="'.$q->id.'" href="#arsip-'.$q->id.'">
+                            <i class="fa fa-file-archive-o"></i>
+                        </a>&nbsp; &nbsp;':'').
+                    (($q->status_spt==2 && is_null($q->arsip_spt))?
+                    '<a class="arsip btn btn-social-icon btn-dark btn-xs" data-toggle="tooltip" data-placement="top" title="Upload Arsip" '.$this->kode.'-id="'.$q->id.'" href="#arsip-'.$q->id.'">
                             <i class="fa fa-archive"></i>
                         </a>&nbsp; &nbsp;':'')
                 .'</div>';
@@ -297,7 +302,7 @@ class sptKeluarController extends Controller
             'penandatangan'    => Pegawai::whereHas('jabatan', function($query){
                                     $query->where('jabatans.penandatangan',1);  
                                 })->get(),
-            'pegawai'    => Pegawai::with('jabatan')->get()->sortBy(function($q) {
+                            'pegawai'    => Pegawai::with('jabatan')->get()->sortBy(function($q) {
                 return $q->jabatan->urutan;
             }),
             'data'  => $this->model::find($id),
@@ -311,7 +316,7 @@ class sptKeluarController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+    * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
