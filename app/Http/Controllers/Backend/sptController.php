@@ -39,6 +39,10 @@ class sptController extends Controller
 
             return Help::time_ago($row->created_at);
         })
+        ->addColumn('tgl_perjalanan',function($row){
+
+            return Help::durasitanggal($row->tanggal_berangkat,$row->tanggal_kembali);
+        })
         ->addColumn('no_spt',function($row){
 
             return $row->no_spt ?? '-';
@@ -202,9 +206,10 @@ class sptController extends Controller
             else {
 
                 if($request->status_spt=='2'){
+                    $mspt = $this->model::find($id);
                     $kodeOpd = Opd::whereId(Auth::user()->bidang->opd_id)->first();
-                    $bidang = Bidang::whereId(Auth::user()->bidang_id)->first();
-                    $nomorSPT = NomorTerakhir::whereOpdId(Auth::user()->bidang->opd_id)->whereJenis('SPT')->first();
+                    $bidang = Bidang::whereId($mspt->bidang->id)->first();
+                    $nomorSPT = NomorTerakhir::whereOpdId($kodeOpd->id)->whereJenis('SPT')->first();
                     $no_spt=$kodeOpd->kode.'/SPT/'.date("Y").'/'.sprintf("%02d", ((int)$nomorSPT->nomor_terakhir+1));
 
                     //save no_spt
@@ -233,7 +238,7 @@ class sptController extends Controller
                         $no_sppd=$kodeOpd->kode.'/SPPD-'.$bidang->singkatan.'/'.date("Y").'/'.sprintf("%02d", ($nomorSPPD->nomor_terakhir+1));
                         
                         //save no_sppd
-                        SptPegawai::find($sptpegawai->id)->update(['no_sppd'=>$no_sppd]);
+                        SptPegawai::find($sptpegawai->id)->update(['no_sppd'=>$no_sppd,'tanggal_penetapan'=>date('Y-m-d')]);
 
                         //save nomor_terakhir
                         NomorTerakhir::find($nomorSPPD->id)->update(['nomor_terakhir'=>sprintf("%02d", ($nomorSPPD->nomor_terakhir+1))]);

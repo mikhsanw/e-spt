@@ -14,8 +14,7 @@ $(document).ready(function() {
 				{ data: 'no_spt' },
 				{ data: 'tempat_tujuan' },
 				{ data: 'bidang.nama' },
-				{ data: 'tanggal_berangkat' },
-				{ data: 'tanggal_kembali' },
+				{ data: 'tgl_perjalanan' },
 				{ data: 'tanggal_pengajuan' },
 				{ data: 'status_spt' },
 				{ data: 'action', orderable: false, searchable: false}

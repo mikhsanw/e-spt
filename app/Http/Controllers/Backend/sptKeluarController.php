@@ -297,7 +297,9 @@ class sptKeluarController extends Controller
             'penandatangan'    => Pegawai::whereHas('jabatan', function($query){
                                     $query->where('jabatans.penandatangan',1);  
                                 })->get(),
-            'pegawai'    => Pegawai::all(),
+            'pegawai'    => Pegawai::with('jabatan')->get()->sortBy(function($q) {
+                return $q->jabatan->urutan;
+            }),
             'data'  => $this->model::find($id),
             'datapegawai' => $item
         ];

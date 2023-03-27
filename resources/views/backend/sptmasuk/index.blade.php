@@ -14,9 +14,8 @@
 					<th class="text-center">NO SPT</th>
 					<th class="text-center">Tujuan</th>
 					<th class="text-center">Bidang</th>
-					<th class="text-center">Tgl. Berangkat</th>
-					<th class="text-center">Tgl. Kembali</th>
-					<th class="text-center">Waktu</th>
+					<th class="text-center">Tgl. Perjalanan</th>
+					<th class="text-center">Pengajuan</th>
 					<th class="text-center">Status</th>
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>
