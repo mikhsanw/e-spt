@@ -35,8 +35,11 @@ class sptKeluarController extends Controller
                     (($q->status_spt==3)?
                     '<a class="edit ubah btn btn-social-icon btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Revisi" '.$this->kode.'-id="'.$q->id.'" href="#edit-'.$q->id.'">
                             <i class="fa fa-edit"></i>
+                        </a>&nbsp; &nbsp;':'').
+                    (($q->status_spt==2)?
+                    '<a class="arsip btn btn-social-icon btn-dark btn-xs" data-toggle="tooltip" data-placement="top" title="Arsip Berkas" '.$this->kode.'-id="'.$q->id.'" href="#arsip-'.$q->id.'">
+                            <i class="fa fa-archive"></i>
                         </a>&nbsp; &nbsp;':'')
-                        
                 .'</div>';
                 return $button;
         })
@@ -125,6 +128,55 @@ class sptKeluarController extends Controller
     {
         $data = Kegiatan::find($id)->kode_rekening;
         return $data;
+    }
+
+    public function arsip($id)
+    {
+        $data=[
+            'data'    => $this->model::find($id)
+        ];
+        return view('backend.'.$this->kode.'.arsip', $data);
+    }
+
+    public function store_arsip(Request $request)
+    {
+        if ($request->ajax()) {
+            $validator=Validator::make($request->all(), [
+                'arsip_spt'        => 'nullable|max:10000|mimes:pdf',
+                'arsip_sppd'        => 'nullable|array'
+                ]);
+            if ($validator->fails()) {
+                $respon=['status'=>false, 'pesan'=>$validator->messages()];
+            }
+            else {
+                $data = $this->model::whereId($request->id)->first();
+                if ($request->hasFile('arsip_spt')) {
+                    $data->arsip_spt()->updateOrCreate(['name'=>'arsip_spt'],[
+                        'name'                  => 'arsip_spt',
+                        'data'                      =>  [
+                            'disk'      => config('filesystems.default'),
+                            'target'    => Storage::putFile($this->kode.'/arsip_spt/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('arsip_spt')),
+                        ]
+                    ]);
+                }
+                if ($request->hasFile('arsip_sppd')) {
+                    foreach($data->spt_pegawai as $key => $sptpegawai){
+                        $sptpegawai->arsip_sppd()->updateOrCreate(['name'=>'arsip_sppd'],[
+                            'name'                  => 'arsip_sppd',
+                            'data'                      =>  [
+                                'disk'      => config('filesystems.default'),
+                                'target'    => Storage::putFile($this->kode.'/arsip_sppd/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('arsip_sppd')[$key]),
+                            ]
+                        ]);
+                    }
+                }
+                $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
+            }
+            return $respon;
+        }
+        else {
+            exit('Ops, an Ajax request');
+        }
     }
 
     /**

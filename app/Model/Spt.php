@@ -61,4 +61,9 @@ class Spt extends Model
     {
         return $this->MorphMany(File::class, 'morph');
     }
+
+    public function arsip_spt()
+    {
+        return $this->morphOne(File::class, 'morph')->where('name', '=', 'arsip_spt');
+    }
 }

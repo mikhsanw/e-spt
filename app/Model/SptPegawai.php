@@ -33,6 +33,11 @@ class SptPegawai extends Model
         return $this->morphOne(File::class, 'morph')->where('name', '=', 'sppd');
     }
 
+    public function arsip_sppd()
+    {
+        return $this->morphOne(File::class, 'morph')->where('name', '=', 'arsip_sppd');
+    }
+
     public function getfilepegawai($spt,$pegawai){
         return $this->where('spt_id',$spt)->where('pegawai_id',$pegawai)->first();;
     }
