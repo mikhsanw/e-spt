@@ -3,7 +3,7 @@
 @push('header',ucwords(strtolower($halaman->nama)))
 @push('tombol')
 <button class="waves-effect waves-light btn bg-gradient-primary text-white py-2 px-3 tambah">
-	Tambahs
+	sdfsdfsdfsdf
 </button>
 @endpush
 @section('content')
