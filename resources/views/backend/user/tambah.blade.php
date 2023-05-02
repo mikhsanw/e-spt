@@ -18,23 +18,24 @@
             {!! Form::text('email', NULL, array('id' => 'email', 'class' => 'form-control', 'placeholder' => 'Email')) !!}
         </div>
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-12 form-group">
         <div class="form-group">
             {!! Form::label('Akses Grup', 'Akses Grup', array('class' => 'control-label')) !!}
             {!! Form::select('aksesgrup_id', $aksesgrup, 5, array('id' => 'aksesgrup_id', 'class' => 'form-control')) !!}
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::label('level', 'Level', array('class' => 'control-label')) !!}
-            {!! Form::select('level', config('master.level'), 5, array('id' => 'level', 'class' => 'form-control')) !!}
-        </div>
-    </div>
+
     <div class="col-md-12 form-group">
         <div class="form-group">
+            @php 
+            $d=Auth::user()->level == 1 ? \App\Model\Opd::with('bidang')->get() : \App\Model\Opd::with('bidang')->whereHas('bidang', function($query){
+                $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+            })->get();
+            @endphp
             {!! Form::label('Bidang', 'Bidang', array('class' => 'control-label')) !!}
             <select name="bidang_id" id="" class="form-control">
-          @foreach(\App\Model\Opd::with('bidang')->get() as $r)
+                @if(Auth::user()->level == 1)
+          @foreach($d as $r)
         <optgroup label="{{$r->nama}}">
             @foreach($r->bidang as $r2)
         <option value="{{$r2->id}}">{{$r2->nama}}</option>
@@ -42,6 +43,13 @@
             @endforeach
         </optgroup>
           @endforeach
+          @else 
+          @foreach($d as $r)
+            @foreach($r->bidang as $r2)
+        <option value="{{$r2->id}}">{{$r2->nama}}</option>
+            @endforeach
+          @endforeach
+          @endif
           </select>
         </div>
     </div>

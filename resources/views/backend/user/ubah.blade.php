@@ -20,20 +20,39 @@
         {!! Form::text('email', $user->email, array('id' => 'email', 'class' => 'form-control', 'placeholder' =>
         'Email')) !!}
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-8">
         {!! Form::label('Akses Grup', 'Akses Grup', array('class' => 'col-md-6 control-label')) !!}
         {!! Form::select('aksesgrup_id', $aksesgrup, $user->aksesgrup_id, array('id' => 'aksesgrup_id', 'class' =>
         'form-control')) !!}
     </div>
-    <div class="form-group col-md-4">
-        {!! Form::label('level', 'Level', array('class' => 'col-md-6 control-label')) !!}
-        {!! Form::select('level', config('master.level'), $user->level, array('id' => 'level', 'class' =>
-        'form-control')) !!}
-    </div>
+ 
     <div class="col-md-12 form-group">
         <div class="form-group">
             {!! Form::label('Bidang', 'Bidang', array('class' => 'control-label')) !!}
-            {!! Form::select('bidang_id', $bidang, $user->bidang_id??'', array('id' => 'bidang_id','placeholder'=>'- Pilih Bidang -', 'class' => 'form-control')) !!}
+            @php 
+            $d=Auth::user()->level == 1 ? \App\Model\Opd::with('bidang')->get() : \App\Model\Opd::with('bidang')->whereHas('bidang', function($query){
+                $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+            })->get();
+            @endphp
+            {!! Form::label('Bidang', 'Bidang', array('class' => 'control-label')) !!}
+            <select name="bidang_id" id="" class="form-control">
+                @if(Auth::user()->level == 1)
+          @foreach($d as $r)
+        <optgroup label="{{$r->nama}}">
+            @foreach($r->bidang as $r2)
+        <option value="{{$r2->id}}">{{$r2->nama}}</option>
+
+            @endforeach
+        </optgroup>
+          @endforeach
+          @else 
+          @foreach($d as $r)
+            @foreach($r->bidang as $r2)
+        <option value="{{$r2->id}}">{{$r2->nama}}</option>
+            @endforeach
+          @endforeach
+          @endif
+          </select>
         </div>
     </div>
 </div>
