@@ -33,7 +33,16 @@
     <div class="col-md-12 form-group">
         <div class="form-group">
             {!! Form::label('Bidang', 'Bidang', array('class' => 'control-label')) !!}
-            {!! Form::select('bidang_id', $bidang, null, array('id' => 'bidang_id', 'placeholder'=>'- Pilih Bidang -', 'class' => 'form-control')) !!}
+            <select name="bidang_id" id="" class="form-control">
+          @foreach(\App\Model\Opd::with('bidang')->get() as $r)
+        <optgroup label="{{$r->nama}}">
+            @foreach($r->bidang as $r2)
+        <option value="{{$r2->id}}">{{$r2->nama}}</option>
+
+            @endforeach
+        </optgroup>
+          @endforeach
+          </select>
         </div>
     </div>
 </div>

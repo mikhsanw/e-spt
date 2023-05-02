@@ -48,7 +48,9 @@ class userController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $user=User::byLevel();
+            $user=User::byLevel()->with('bidang')->whereHas('bidang', function($query){
+                $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+            });
             return Datatables::of($user)->addIndexColumn()
                 ->addColumn('action', function ($data){
                     return '<div class="text-center text-nowrap">
@@ -79,7 +81,7 @@ class userController extends Controller
     {
         $data=[
             'aksesgrup'     => Aksesgrup::byLevel()->pluck('nama', 'id'),
-            'bidang'        => Bidang::pluck('nama','id')
+            'bidang'        => Bidang::all()
         ];
         return view('backend.user.tambah', $data);
     }
