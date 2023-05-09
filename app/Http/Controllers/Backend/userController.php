@@ -95,6 +95,7 @@ class userController extends Controller
             $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
         }
         else {
+            $request->request->add(['level'=>0]);
             if (User::create($request->all())) {
                 $response=['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil disimpan']];
             }

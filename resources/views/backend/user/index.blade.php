@@ -16,7 +16,6 @@
 					<th >Nama</th>
 					<th >E-Mail</th>
 					<th class="text-center">Akses Grup</th>
-					<th class="text-center">Level</th>
 					<th class="text-center wid-10">Aksi</th>
 				</tr>
 			</thead>

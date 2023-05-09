@@ -46,7 +46,6 @@ $(document).ready(function() {
 				{ data: 'nama' },
 				{ data: 'email', orderable:false },
 				{ data: 'aksesgrup', orderable:false },
-				{ data: 'level', orderable:false },
 				{ data: 'action', orderable: false, searchable: false}
 		]
 		});
