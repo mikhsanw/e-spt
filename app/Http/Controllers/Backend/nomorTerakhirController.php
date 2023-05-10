@@ -46,7 +46,7 @@ class nomorTerakhirController extends Controller
     public function create()
     {
         $data=[
-            'bidang'     => Bidang::pluck('nama','id')
+            'bidang'     => Bidang::where('opd_id', Auth::user()->bidang->opd_id)->pluck('nama','id')
         ];
         return view('backend.'.$this->kode.'.tambah',$data);
     }

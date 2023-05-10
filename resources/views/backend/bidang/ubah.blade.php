@@ -13,10 +13,6 @@
             {!! Form::label('status', 'Pilih status', array('class' => 'control-label')) !!}
             {!! Form::select('status', config('master.status_aktif'), $data->status, array('id' => 'status', 'class' => 'form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
-        <p>
-            {!! Form::label('opd', 'Pilih Opd', array('class' => 'control-label')) !!}
-            {!! Form::select('opd_id', $opd, $data->opd_id, array('id' => 'opd', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
-        </p>
     </div>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>

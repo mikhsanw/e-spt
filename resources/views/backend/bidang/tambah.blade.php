@@ -11,11 +11,11 @@
         </p>
         <p>
             {!! Form::label('status', 'Pilih status', array('class' => 'control-label')) !!}
-            {!! Form::select('status', config('master.status_aktif'), null, array('id' => 'status', 'class' => 'form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
+            {!! Form::select('status', config('master.status_aktif'), 0, array('id' => 'status', 'class' => 'form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
-        <p>
+        <p class="opd">
             {!! Form::label('opd_id', 'Pilih Opd', array('class' => 'control-label')) !!}
-            {!! Form::select('opd_id', $opd, null, array('id' => 'opd', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
+            {!! Form::select('opd_id', $opd, $opd_user, array('id' => 'opd', 'class' => 'select2 form-control status', 'placeholder'=>'Pilih','style' => 'width:100%')) !!}
         </p>
     </div>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
@@ -49,4 +49,5 @@
         height: 200,
         dialogsInBody: true
     });
+    $('.opd').hide()
 </script>

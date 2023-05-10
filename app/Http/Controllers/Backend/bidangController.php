@@ -42,7 +42,8 @@ class bidangController extends Controller
     public function create()
     {
         $data=[
-            'opd'     => Opd::pluck('nama','id')
+            'opd'     => Opd::pluck('nama','id'),
+            'opd_user'=> Auth::user()->bidang->opd_id
         ];
         return view('backend.'.$this->kode.'.tambah',$data);
     }
