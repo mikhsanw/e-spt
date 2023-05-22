@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Model\Bidang;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,9 @@ class kegiatanController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= $this->model::query();
+            $data= $this->model::whereHas('bidang', function($query){
+                $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+            });
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
@@ -41,7 +44,7 @@ class kegiatanController extends Controller
     public function create()
     {
         $data=[
-            'bidang'     => Bidang::pluck('nama','id')
+            'bidang'     => Bidang::where('opd_id', Auth::user()->bidang->opd_id)->pluck('nama','id')
         ];
         return view('backend.'.$this->kode.'.tambah',$data);
     }
@@ -94,7 +97,7 @@ class kegiatanController extends Controller
     {
         $data=[
             'data'    => $this->model::find($id),
-            'bidang'  => Bidang::pluck('nama','id')
+            'bidang'  => Bidang::where('opd_id', Auth::user()->bidang->opd_id)->pluck('nama','id')
 
         ];
         return view('backend.'.$this->kode.'.ubah', $data);

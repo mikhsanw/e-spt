@@ -55,7 +55,7 @@
 
                     </object>
                     @else
-                    <object data="{{url('sptmasuk/viewspt/'.$data->id)}}" type="application/pdf"
+                    <object data="{{url('sptkeluar/viewspt/'.$data->id)}}" type="application/pdf"
                         style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
                         File PDF tidak dapat ditampilkan, silahkan download file
 
@@ -89,7 +89,7 @@
                                     <td>{{$p->nama_pegawai}}</td>
                                     <td>{{$p->nama_bidang}}</td>
                                     <td>{{$p->jabatan}}</td>
-                                    <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd(`{{$sptpegawai->getfilepegawai($data->id,$p->id_pegawai)->file_sppd?url($sptpegawai->getfilepegawai($data->id,$p->id_pegawai)->file_sppd->url_stream):'sptmasuk/viewsppd/'.$data->id.'/'.$p->id_pegawai}}`)"
+                                    <td><button onclick="$('.listsppd').hide();$('.sppdview').show();lihatsppd(`{{$sptpegawai->getfilepegawai($data->id,$p->id_pegawai)->file_sppd?url($sptpegawai->getfilepegawai($data->id,$p->id_pegawai)->file_sppd->url_stream):'sptkeluar/viewsppd/'.$data->id.'/'.$p->id_pegawai}}`)"
                                             class="btn btn-info btn-sm" type="button"> <i class="fa fa-eye"
                                                 aria-hidden="true"></i> lihat</button></td>
                                 </tr>

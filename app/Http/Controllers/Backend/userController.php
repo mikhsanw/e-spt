@@ -89,7 +89,7 @@ class userController extends Controller
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(), [
-            'nama'=>'required|string|max:255', 'username'=>'required|string|max:50|unique:users', 'password'=>'min:6', 'aksesgrup_id'=>'required', 'level'=>'required',
+            'nama'=>'required|string|max:255', 'username'=>'required|string|max:50|unique:users', 'password'=>'min:6', 'aksesgrup_id'=>'required',
         ]);
         if ($validator->fails()) {
             $response=['status'=>FALSE, 'pesan'=>$validator->messages()];

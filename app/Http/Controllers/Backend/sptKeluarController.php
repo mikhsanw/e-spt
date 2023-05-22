@@ -193,10 +193,14 @@ class sptKeluarController extends Controller
     {
         $data=[
             'kegiatan'   => Kegiatan::whereBidangId(Auth::user()->bidang_id)->pluck('nama','id'),
-            'penandatangan'    => Pegawai::whereHas('jabatan', function($query){
-                                    $query->where('jabatans.penandatangan',1);  
-                                })->get(),
-            'pegawai'    => Pegawai::all()
+            'penandatangan'    => Pegawai::whereHas('bidang', function($query){
+                    $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+                })->whereHas('jabatan', function($query){
+                    $query->where('jabatans.penandatangan',1);  
+                })->get(),
+            'pegawai'    => Pegawai::whereHas('bidang', function($query){
+                                $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
+                            })->get()
         ];
         return view('backend.'.$this->kode.'.tambah',$data);
     }
