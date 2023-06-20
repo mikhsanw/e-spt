@@ -1,6 +1,5 @@
 @extends('backend.topdf.layout')
 @section('content')
-
 <style>
  
     .v-top {
@@ -82,7 +81,7 @@
 <br>
 <br>
 <center>
-    <span style="border-bottom:2px solid #000">SURAT PERINTAH TUGAS</span><br>
+    <span style="border-bottom:0px solid #000">SURAT TUGAS</span><br>
     <span>NOMOR : {{$data->no_spt??''}}</span>
 </center>
 
@@ -105,7 +104,7 @@
                                                                     font-family: 'Arial Black', sans-serif;
                                                                     font-family: 'Arial Light', sans-serif;
                                                                     font-family: 'Arial CE', sans-serif;
-                                                                    font-family: 'Arial CE MT Black', sans-serif;">MEMERINTAHKAN</td>
+                                                                    font-family: 'Arial CE MT Black', sans-serif;">MEMERINTAHKAN :</td>
     </tr>
     <br>
     <tr>
@@ -130,16 +129,24 @@
         <td class="v-top">
             <ol style="padding:3px 0 0 20px;margin:0;display:block">
                 <li>
-                    {{$data->maksud_perjalanan}}
+                    {{$data->maksud_perjalanan}},
                 </li>
-                <li>
-                    Lama perjalanan Dinas {{Help::lamahari($data->tanggal_berangkat,$data->tanggal_kembali)}} (
-                    {{config('master.angka_indo.'.Help::lamahari($data->tanggal_berangkat,$data->tanggal_kembali))}} )
-                    hari mulai tanggal {{Help::durasitanggal($data->tanggal_berangkat,$data->tanggal_kembali)}}.
+                <li> 
+                    <table>
+                        <tr>
+                            <td>Lama perjalanan Dinas :</td>
+                            <td>{{Help::lamahari($data->tanggal_berangkat,$data->tanggal_kembali)}} (
+                            {{config('master.angka_indo.'.Help::lamahari($data->tanggal_berangkat,$data->tanggal_kembali))}} )</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Dari tanggal : {{Help::durasitanggal($data->tanggal_berangkat,$data->tanggal_kembali)}},</td>
+                        </tr>
+                    </table>
                 </li>
                 <li>
                     Setelah melaksanakan tugas paling lama 5 ( Lima ) hari menyampaikan laporan tertulis kepada
-                    pimpinan.
+                    pimpinan, dan
                 </li>
                 <li>Biaya Pelaksanaan perjalanan dinas ini dibebankan pada {{$pegawai->first()->opd}}.
                 </li>
@@ -153,15 +160,9 @@
 <br>
 <table style="width:250px;" align="right">
     <tr>
-        <td>Bengkalis, {{$data->tanggal_penetapan ? Help::tglindo($data->tanggal_penetapan) : 'Belum ditetapkan'}}
-            <p style="margin-top:5px">KEPALA {{Str::upper($pegawai->first()->opd)}}</p>
-            <br>
-            <br>
-            <br>
-
-            <span>{{$ttd->pegawai->nama}}</span><br>
-            {{$ttd->pegawai->pangkat}} / {{$ttd->pegawai->golongan}}<br>
-            NIP. {{$ttd->pegawai->nip}}
+        <td>Ditetapkan di Bengkalis,<br>
+        pada tanggal {{$data->tanggal_penetapan ? Help::tglindo($data->tanggal_penetapan) : 'Belum ditetapkan'}}
+            
         </td>
     </tr>
 </table>

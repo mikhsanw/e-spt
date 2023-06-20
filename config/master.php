@@ -19,7 +19,7 @@ return [
     'angka_indo'=>[
         '0'=>'nol',
         '1'=>'satu',
-        '2'=>'due',
+        '2'=>'dua',
         '3'=>'tiga',
         '4'=>'empat',
         '5'=>'lima',
