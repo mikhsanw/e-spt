@@ -7,6 +7,7 @@ use App\Model\Bidang;
 use App\Model\Pegawai;
 use App\Model\Kegiatan;
 use PDF;
+use QrCode;
 use App\model\SptPegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -76,7 +77,7 @@ class sptKeluarController extends Controller
     }
 
     function viewspt($id){
-        $customPaper = array(0,0,595.276,935.433);
+        $customPaper = array(0,0,609.4488,935.433);
         $data = $this->model::find($id);
         $pegawai =  \App\Model\SptPegawai::join('spts','spts.id','spt_pegawais.spt_id')->join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
         ->join('jabatans','jabatans.id','pegawais.jabatan_id')
@@ -88,14 +89,15 @@ class sptKeluarController extends Controller
         $kop  = \App\Model\Opd::whereHas('bidang.spt', function($query) use ($id){
             $query->where('spts.id', $id);  
         })->first();
+        $qrcode = base64_encode(QrCode::format('svg')->size(80)->errorCorrection('H')->generate($data->id));
         
-        $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
+        $pdf = PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop','qrcode'))->setPaper($customPaper,'potrait');
         return $pdf->stream($data->id.'.pdf');
 
     }
 
     function viewsppd($id,$pegawai){
-         $customPaper = array(0,0,595.276,935.433);
+         $customPaper = array(0,0,609.4488,935.433);
         $data = $this->model::find($id);
         $pegawai = \App\Model\SptPegawai::join('spts','spts.id','spt_pegawais.spt_id')->join('pegawais','pegawais.id','spt_pegawais.pegawai_id')
         ->join('jabatans','jabatans.id','pegawais.jabatan_id')
@@ -108,7 +110,11 @@ class sptKeluarController extends Controller
         $kop  = \App\Model\Opd::whereHas('bidang', function($query){
             $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
         })->first();
-        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
+        $kepalabidang = Pegawai::with('jabatan')->where('bidang_id',$data->bidang_id)->whereHas('jabatan', function($query){
+            $query->where('jabatans.urutan','=', 3);  
+        })->first();
+        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($data->id));
+        $pdf = PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop','kepalabidang','qrcode'))->setPaper($customPaper,'potrait');
         return $pdf->stream($data->id.'.pdf');
 
     }

@@ -9,10 +9,11 @@
     <style>
        body {
         font-family: 'Arial', sans-serif;
-                                                                    font-family: 'Arial Black', sans-serif;
-                                                                    font-family: 'Arial Light', sans-serif;
-                                                                    font-family: 'Arial CE', sans-serif;
-                                                                    font-family: 'Arial CE MT Black', sans-serif;
+        font-family: 'Arial Black', sans-serif;
+        font-family: 'Arial Light', sans-serif;
+        font-family: 'Arial CE', sans-serif;
+        font-family: 'Arial CE MT Black', sans-serif;
+        font-size: 12px;
     }
     </style>
 </head>

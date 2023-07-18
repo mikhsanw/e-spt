@@ -33,6 +33,7 @@
         "ojisatriani/fungsi": "^1.0",
         "psr/simple-cache": "2.0",
         "setasign/fpdi": "^2.3",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "tecnickcom/tcpdf": "^6.5",
         "yajra/laravel-datatables": "^1.0"
     },

@@ -177,8 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\HelpServiceProvider::class,
-        Madnest\Madzipper\MadzipperServiceProvider::class
-
+        Madnest\Madzipper\MadzipperServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
     ],
 
     /*
@@ -237,7 +237,8 @@ return [
         'PdfMerger' => LynX39\LaraPdfMerger\Facades\PdfMerger::class,
         'Madzipper' => Madnest\Madzipper\Madzipper::class,
         'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
-        'Carbon' => 'Carbon\Carbon'
+        'Carbon' => 'Carbon\Carbon',
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];

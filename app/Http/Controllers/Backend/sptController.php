@@ -153,7 +153,10 @@ class sptController extends Controller
         $kop  = \App\Model\Opd::whereHas('bidang', function($query){
             $query->where('bidangs.opd_id','=', Auth::user()->bidang->opd_id);  
         })->first();
-        return PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop'))->setPaper($customPaper,'potrait');
+        $kepalabidang = Pegawai::with('jabatan')->where('bidang_id',$data->bidang_id)->whereHas('jabatan', function($query){
+            $query->where('jabatans.urutan','=', 3);  
+        })->first();
+        return PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop','kepalabidang'))->setPaper($customPaper,'potrait');
     }
 
     function viewspt($id){

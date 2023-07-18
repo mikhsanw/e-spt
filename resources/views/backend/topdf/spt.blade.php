@@ -65,17 +65,37 @@
     }
     p {margin:0;padding:0;
         font-family: 'Arial', sans-serif;
-                                                                    font-family: 'Arial Black', sans-serif;
-                                                                    font-family: 'Arial Light', sans-serif;
-                                                                    font-family: 'Arial CE', sans-serif;
-                                                                    font-family: 'Arial CE MT Black', sans-serif;}
-                                                                    li{
-                                                                        font-family: 'Arial', sans-serif;
-                                                                    font-family: 'Arial Black', sans-serif;
-                                                                    font-family: 'Arial Light', sans-serif;
-                                                                    font-family: 'Arial CE', sans-serif;
-                                                                    font-family: 'Arial CE MT Black', sans-serif;
-                                                                    }
+        font-family: 'Arial Black', sans-serif;
+        font-family: 'Arial Light', sans-serif;
+        font-family: 'Arial CE', sans-serif;
+        font-family: 'Arial CE MT Black', sans-serif;}
+    li{
+            font-family: 'Arial', sans-serif;
+        font-family: 'Arial Black', sans-serif;
+        font-family: 'Arial Light', sans-serif;
+        font-family: 'Arial CE', sans-serif;
+        font-family: 'Arial CE MT Black', sans-serif;
+    }
+
+    .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    }
+
+    ul {
+        margin-top: 5px;
+        margin-left: -20px;
+    }
+    hr {
+        max-width: 90%;
+        margin: 0px;
+    }
 </style>
 <img src="{{$kop->file->url_stream.'?t='.time() ?? '#'}}" style="width:100%" alt="">
 <br>
@@ -166,4 +186,22 @@
         </td>
     </tr>
 </table>
+<div class="footer">
+    <table width="100%">
+        <tr>
+            <td width="100%">
+                <b>Catatan</b><hr>
+                <ul>
+                    <li style="font-size: xx-small;">UU ITE Nomor 11 Tahun 2008 Pasal 5 Ayat (1); <br>"Informasi Elektronik dan/atau Dokumen Elektronik dan/atau hasil cetaknya merupakan alat bukti hukum yang sah*</li>
+                    <li style="font-size: xx-small;">Dokumen ini telah ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan BSrE;</li>
+                    <li style="font-size: xx-small;">Surat ini dapat dibuktikan keasliannya die-surat. bengkaliskab. go.id dengan scan Qr-Code.</li>
+                </ul>
+            </td>
+            <td style="width: 15%; text-align: end;">
+                <img src="data:image/png;base64, {!! $qrcode !!}">
+            </td>
+        </tr>
+        </table>
+</div>
+  
 @endsection

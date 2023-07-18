@@ -25,7 +25,7 @@ class fileController extends Controller
                 'Content-Disposition' => 'inline; filename="'.$nama.'.pdf"',
             ]);
         }
-        return view('layouts.backend.error.410', [
+        return view('errors.410', [
             'data'=>[
                 'code'=>410,
                 'status'=>'GONE',
