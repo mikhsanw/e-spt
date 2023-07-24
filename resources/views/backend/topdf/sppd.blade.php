@@ -40,6 +40,9 @@
         border-bottom: 0px;
         padding-bottom: 6px;
     }
+    .sppds tr.visum td{
+        padding-bottom: 100px;
+    }
 
     .sppd tr td:last-child {
         border-bottom: 1px solid #000;
@@ -254,12 +257,12 @@
             <td style="" colspan="2">PEJABAT PELAKSANA TEKNIS KEGIATAN {{strtoupper($pegawai->nama_bidang != 'Kantor' ? ($pegawai->nama_bidang!='Sekretariat' ? 'Bidang '.$pegawai->nama_bidang: $pegawai->nama_bidang) : '' )}} <br><br><br><br><u>{{strtoupper($kepalabidang->nama)}}</u><br>NIP. {{$kepalabidang->nip}}</td>
             
         </tr>
-        <tr>
+        <tr class="visum">
             <td style="vertical-align:top;">II.</td>
             <td style="vertical-align:top;">Tiba di<br>Pada tanggal<br></td>
             <td style="" class="tengah">: {{$pegawai->tempat_tujuan}}<br>: {{Help::tglindo($data->tanggal_kembali)}}<br><br></td>
             <td width="" style="vertical-align:top;"></td>
-            <td style="padding-bottom: 100px;">Berangkat Dari<br>Ke<br>Pada tanggal</td>
+            <td style="">Berangkat Dari<br>Ke<br>Pada tanggal</td>
             <td style="vertical-align:top;">: {{$pegawai->tempat_berangkat}} <br>: {{$pegawai->tempat_tujuan}} <br>: {{Help::tglindo($data->tanggal_berangkat)}}</td>
         </tr>
         <tr>
@@ -321,6 +324,7 @@
         <tr>
             <td>
                 <p style="margin-top:7px">PENGGUNA ANGGARAN <br> {{Str::upper($kop->nama)}} KABUPATEN BENGKALIS</p>
+                <br>
                 <br>
                 <br>
                 <span><u>{{Str::upper($data->pegawai->nama)}}<u></span><br>

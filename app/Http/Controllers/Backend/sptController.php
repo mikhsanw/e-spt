@@ -4,8 +4,10 @@ namespace App\Http\Controllers\backend;
 
 use PDF;
 use Help;
+use QrCode;
 use App\model\Opd;
 use App\model\Bidang;
+use App\model\Pegawai;
 use App\model\SptPegawai;
 use App\model\NomorTerakhir;
 use Illuminate\Http\Request;
@@ -135,7 +137,7 @@ class sptController extends Controller
         $kop  = \App\Model\Opd::whereHas('bidang.spt', function($query) use ($id){
             $query->where('spts.id', $id);  
         })->first();
-        $qrcode = base64_encode(QrCode::format('svg')->size(80)->errorCorrection('H')->generate($data->id));
+        $qrcode = base64_encode(QrCode::format('svg')->size(60)->errorCorrection('H')->generate($data->id));
         
         return PDF::loadView('backend.topdf.spt',compact('data','pegawai','ttd','kop','qrcode'))->setPaper($customPaper,'potrait');
     }
@@ -157,7 +159,7 @@ class sptController extends Controller
         $kepalabidang = Pegawai::with('jabatan')->where('bidang_id',$data->bidang_id)->whereHas('jabatan', function($query){
             $query->where('jabatans.urutan','=', 3);  
         })->first();
-        $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate($data->id));
+        $qrcode = base64_encode(QrCode::format('svg')->size(60)->errorCorrection('H')->generate($data->id));
         return PDF::loadView('backend.topdf.sppd',compact('data','pegawai','ttd','kop','kepalabidang','qrcode'))->setPaper($customPaper,'potrait');
     }
 
